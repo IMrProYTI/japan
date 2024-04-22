@@ -12,6 +12,7 @@ import Judge from './views/Judge.vue';
 import Login from './views/Login.vue';
 
 import Overlay from './views/Overlay.vue';
+// import OverlayPlayer from './views/OverlayPlayer.vue';
 
 
 const routes = [

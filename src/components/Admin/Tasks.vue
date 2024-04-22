@@ -17,7 +17,7 @@
       </div>
       <div class="flex flex-col space-y-2">
         <input class="rounded p-1 bg-neutral-100 dark:bg-slate-900" v-model="title" placeholder="Заголовок" type="text">
-        <textarea style="width: 514.25px; height: 100px;" class="resize rounded p-1 bg-neutral-100 dark:bg-slate-900" v-model="description" placeholder="Описание" type="text"></textarea>
+        <textarea style="width: 542.9px; height: 100px;" class="resize rounded p-1 bg-neutral-100 dark:bg-slate-900" v-model="description" placeholder="Описание" type="text"></textarea>
       </div>
       <ApproveButton class="w-full" @click="createTask">Добавить</ApproveButton>
       <p v-if="errorMessage" class="font-bold text-red-700">{{ errorMessage }}</p>

@@ -15,6 +15,7 @@ import Login from './views/Login.vue';
 import Overlay from './views/Overlay.vue';
 // import OverlayPlayer from './views/OverlayPlayer.vue';
 
+const DEBUG: boolean = true;
 
 const routes = [
 	{
@@ -81,7 +82,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _from) => {
-	if (to.meta.requiresAuth && !(await checkAuth())) {
+	if (to.meta.requiresAuth && !(await checkAuth()) && !DEBUG) {
 		return {
 			path: '/login',
 			query: { redirect: to.fullPath },

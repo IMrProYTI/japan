@@ -21,7 +21,7 @@
 				<td class="text-center px-2 py-1">{{ task.id }}</td>
 				<td class="px-2 py-1">{{ task.title }}</td>
 				<td class="px-2 py-1">{{ task.description }}</td>
-				<td class="px-2 py-1">{{ task.reward }}</td>
+				<td class="px-2 py-1">{{ task.reward }} балл{{ task.reward != 1 ? task.reward == 5 ? 'ов' : 'а' : '' }}</td>
 				<td class="px-2 py-1">{{ task.user === 'ALL' ? 'Всех' : task.user }}</td>
 				<td class="px-2 py-1">
 					<DangerButton @click="deleteTask(task.id)">Удалить</DangerButton>

@@ -5,7 +5,7 @@
       <div class="relative flex-1 justify-center items-center">
         <div class="absolute inset-0 bg-[url(/background.jpg)] bg-cover bg-center brightness-50" />
         <div class="absolute flex flex-col justify-center items-center inset-0 space-y-2 text-white">
-          <img class="max-w-full max-h-96" src="/Logo-Vector.png" alt="logo">
+          <img class="max-w-full max-h-96 p-4" src="/Logo.png" alt="logo">
           <div class="flex flex-col justify-center items-center rounded-xl p-2 m-2 space-y-2">
             <h1 class="font-bold text-center text-4xl md:text-5xl lg:text-6xl m-2">Клуб Японской Культуры</h1>
             <hr class="w-full">

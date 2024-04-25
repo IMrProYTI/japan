@@ -9,10 +9,6 @@
 	src: url('/zh-cn.ttf');
 }
 
-div#overlay {
-	font-family: 'Genshin Impact Font';
-}
-
 
 /* Google Material Symbols */
 @font-face {
@@ -36,4 +32,5 @@ div#overlay {
 	direction: ltr;
 	-moz-font-feature-settings: 'liga';
 	-moz-osx-font-smoothing: grayscale;
+	user-select: none;
 }

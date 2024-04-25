@@ -1,6 +1,6 @@
 <template>
-	<header class="flex justify-between items-center w-fill h-10">
-		<nav class="w-auto h-full flex justify-center items-center px-2 divide-x divide-slate-950 text-sm">
+	<header class="flex justify-between items-center w-fill h-10 bg-neutral-800">
+		<nav class="w-auto h-full flex justify-center items-center px-2 divide-x divide-neutral-800 text-sm">
 			<LinkButton to="/">
 				<p>Главная</p>
 			</LinkButton>
@@ -12,7 +12,7 @@
 			</LinkButton>
 		</nav>
 		<div class="flex">
-			<Mode />
+			
 		</div>
 	</header>
 </template>
@@ -21,12 +21,12 @@
 import { Ref, ref } from 'vue';
 import { checkAuth } from '../../supabase';
 
-import Mode from './Mode.vue';
+import Mode from '../root/Mode.vue';
 import LinkButton from './LinkButton.vue';
 
-const authorizedStatus: Ref<boolean> = ref(false);
+const authorizedStatus: Ref<boolean> = ref(true);
 
-async function isAuthorized(): void {
+async function isAuthorized(): Promise<void> {
 	authorizedStatus.value = await checkAuth();
 };
 

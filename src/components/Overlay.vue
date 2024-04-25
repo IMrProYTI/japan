@@ -1,5 +1,5 @@
 <template>
-  <div id="overlay" class="text-black p-2">
+  <div class="text-black p-2">
     <h1 class="text-center text-2xl">Задания: {{ $route.params.player }}</h1>
     <div v-for="task in tasks" :key="task.id">
       <div

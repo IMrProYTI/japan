@@ -3,49 +3,40 @@
     <div class="flex flex-col w-screen min-h-screen">
       <Header />
       <div class="relative flex-1 justify-center items-center">
-        <div class="absolute inset-0 bg-[url(/background.jpg)] bg-cover bg-center" />
-        <div class="absolute flex flex-col justify-center items-center inset-0 text-white">
-          <img src="./logo.svg" alt="logo">
-          <div class="flex flex-col justify-center items-center drop-shadow">
-            <h1 class="font-bold text-6xl m-4">Клуб Японской Культуры</h1>
+        <div class="absolute inset-0 bg-[url(/background.jpg)] bg-cover bg-center brightness-50" />
+        <div class="absolute flex flex-col justify-center items-center inset-0 space-y-2 text-white">
+          <img class="max-w-full max-h-96" src="/Logo-Vector.png" alt="logo">
+          <div class="flex flex-col justify-center items-center rounded-xl p-2 m-2 space-y-2">
+            <h1 class="font-bold text-center text-4xl md:text-5xl lg:text-6xl m-2">Клуб Японской Культуры</h1>
             <hr class="w-full">
-            <p class="m-2 text-wrap">Мы приглашаем вас познакомится с удивительной культурой страны восходящего солнца.
+            <p class="font-semibold text-sm lg:text-base text-center">
+              Мы приглашаем вас познакомится с удивительной культурой страны восходящего солнца.
             </p>
           </div>
         </div>
-        <div class="absolute bottom-0 w-full h-1/4 bg-gradient-to-t from-neutral-300 dark:from-slate-950">
-
-        </div>
+        <!-- <div class="absolute bottom-0 w-full h-1/6 bg-gradient-to-t from-neutral-300 dark:from-slate-950" /> -->
       </div>
-      <div class="text-animate flex justify-center p-4">
+      <!-- <div class="text-animate flex justify-center p-2">
         <span class="material-symbols">expand_more</span>
-        <p>Листай ниже</p>
-        <span class="material-symbols">expand_more</span>
-      </div>
+      </div> -->
     </div>
 
-    <div class="flex flex-col justify-center items-center p-4">
+    <!-- <div class="container flex flex-col justify-center items-center p-4 m-auto">
       <div class="">
-
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt ullam corporis, fugit tempore possimus veritatis aliquid dolore sint enim magnam voluptas odio? Odit vero cupiditate fugit corrupti. Quisquam, odit aliquid?
       </div>
       <div class="">
-        
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt ullam corporis, fugit tempore possimus veritatis aliquid dolore sint enim magnam voluptas odio? Odit vero cupiditate fugit corrupti. Quisquam, odit aliquid?
       </div>
-    </div>
+    </div> -->
 
-    <footer class="flex justify-between items-center p-2">
-      <p>Разработано: <a class="underline" href="https://poti.netlify.app/">POTI</a></p>
-      <div class="text-xs">
-        <router-link class="px-2 py-1 rounded-md text-black dark:text-white" to="/">Домашняя</router-link>
-        <router-link class="px-2 py-1 rounded-md text-black dark:text-white" to="/admin/tasks">Админка</router-link>
-        <router-link class="px-2 py-1 rounded-md text-black dark:text-white" to="/overlay/">Оверлэй</router-link>
-      </div>
-    </footer>
+    <Footer />
   </div>
 </template>
 
 <script setup lang="ts">
 import Header from '../components/Home/Header.vue';
+import Footer from '../components/Home/Footer.vue';
 </script>
 
 <style scoped>

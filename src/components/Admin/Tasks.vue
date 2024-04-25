@@ -3,8 +3,30 @@
     <div class="flex flex-col items-start w-fit space-y-2">
       <div class="flex justify-center items-center space-x-2">
         <p class="h-fit">Добаивть задание:</p>
-        <input class="rounded p-1 bg-neutral-100 dark:bg-slate-900" v-model="user" :placeholder="checkbox ? `Всем` : `Игроку`" :disabled="checkbox" type="text">
-        <select class="px-2 py-1 rounded bg-neutral-100 dark:bg-slate-900" v-model="reward">
+        <!-- <input
+          class="rounded p-1 bg-neutral-100 dark:bg-slate-900"
+          v-model="user"
+          :placeholder="checkbox ? `Всем` : `Игроку`"
+          :disabled="checkbox"
+          type="text"
+        > -->
+        <select
+          class="rounded p-1 bg-neutral-100 dark:bg-slate-900"
+          v-model="user"
+          :placeholder="checkbox ? `Всем` : `Игроку`"
+          :disabled="checkbox"
+        >
+          <option value="" selected disabled>Выберите участника</option>
+          <option
+            v-for="participant in participants"
+            :key="participant.id"
+            :value="participant.id"
+          >{{ participant.nickname }}</option>
+        </select>
+        <select
+          class="px-2 py-1 rounded bg-neutral-100 dark:bg-slate-900"
+          v-model="reward"
+        >
           <option value="" selected disabled>Награда</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -16,8 +38,20 @@
         <p class="h-fit">Всем?</p>
       </div>
       <div class="flex flex-col space-y-2">
-        <input class="rounded p-1 bg-neutral-100 dark:bg-slate-900" v-model="title" placeholder="Заголовок" type="text">
-        <textarea style="width: 542.9px; height: 100px;" class="resize rounded p-1 bg-neutral-100 dark:bg-slate-900" v-model="description" placeholder="Описание" type="text"></textarea>
+        <input
+          class="rounded p-1 bg-neutral-100 dark:bg-slate-900"
+          v-model="title"
+          placeholder="Заголовок"
+          type="text"
+        >
+        <textarea
+          style="width: 542.9px; height: 100px;"
+          class="resize rounded p-1 bg-neutral-100 dark:bg-slate-900"
+          v-model="description"
+          placeholder="Описание"
+          type="text"
+        >
+        </textarea>
       </div>
       <ApproveButton class="w-full" @click="createTask">Добавить</ApproveButton>
       <p v-if="errorMessage" class="font-bold text-red-700">{{ errorMessage }}</p>
@@ -46,6 +80,10 @@ const user: Ref<string> = ref("");
 const reward: Ref<string> = ref("");
 
 const checkbox: Ref<boolean> = ref(true);
+const participants: Ref<{
+  id: any;
+  nickname: any;
+}[]> = ref([]);
 const errorMessage: Ref<string | undefined> = ref("");
 
 async function createTask() {
@@ -79,6 +117,11 @@ async function createTask() {
   errorMessage.value = error?.message;
 };
 
+(async () => {
+  const { data, error } = await supabase.from('participant').select('id,nickname');
+  if (data) participants.value = data;
+  errorMessage.value = error?.message;
+})();
 </script>
 
 <style scoped>

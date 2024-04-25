@@ -2,8 +2,8 @@
 	<router-link class="
 			flex justify-center items-center
 			w-auto h-full px-2
-			bg-neutral-200 hover:bg-neutral-100
-			dark:bg-slate-900 dark:hover:bg-slate-800
+			text-white
+			bg-neutral-700 hover:bg-neutral-600
 		" :to="to">
 		<slot />
 	</router-link>

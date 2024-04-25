@@ -1,6 +1,6 @@
 <template>
   <Suspense>
-    <Overlay />
+    <Overlay class="font-impact" />
         
     <template #fallback>
       Loading...

@@ -7,12 +7,20 @@ export default {
   ],
   theme: {
     extend: {
-      extend: {
-        aspectRatio: {
-          'vk-logo': '128/22.25',
-          '4/3': '4/3'
-        }
-      }
+      width: {
+        '128': '32rem',
+        '256': '64rem',
+      },
+      height: {
+        '128': '32rem',
+        '256': '64rem',
+      },
+      brightness: {
+        25: '.25',
+      },
+      fontFamily: {
+        impact: 'Genshin Impact Font',
+      },
     },
   },
   plugins: [],

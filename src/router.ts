@@ -6,6 +6,7 @@ import Home from './views/Home.vue';
 import Admin from './views/Admin.vue';
 import AdminTasks from './components/Admin/Tasks.vue';
 import AdminJudge from './components/Admin/Judge.vue';
+import AdminParticipant from './components/Admin/Participant.vue';
 
 import Judge from './views/Judge.vue';
 
@@ -34,6 +35,11 @@ const routes = [
 			{
 				path: 'judge',
 				component: AdminJudge,
+				meta: { requiresAuth: true }
+			},
+			{
+				path: 'participant',
+				component: AdminParticipant,
 				meta: { requiresAuth: true }
 			}
 		]
@@ -74,7 +80,7 @@ const router = createRouter({
 	routes,
 });
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to, _from) => {
 	if (to.meta.requiresAuth && !(await checkAuth())) {
 		return {
 			path: '/login',

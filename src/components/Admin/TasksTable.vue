@@ -1,13 +1,13 @@
 <template>
-	<table v-if="tasks !== null" class="rounded table-auto text-white bg-blue-600 dark:bg-slate-900">
+	<table v-if="tasks !== null" class="w-max rounded table-auto text-white bg-blue-600 dark:bg-slate-900">
 		<thead>
 			<tr>
-				<th>id</th>
-				<th>Название</th>
-				<th>Описание</th>
-				<th>Награда</th>
-				<th>Пользователь</th>
-				<th>Действия</th>
+				<th class="px-2 py-1">id</th>
+				<th class="px-2 py-1">Название</th>
+				<th class="px-2 py-1">Описание</th>
+				<th class="px-2 py-1">Награда</th>
+				<th class="px-2 py-1">Задание для</th>
+				<th class="px-2 py-1">Действия</th>
 			</tr>
 		</thead>
 		<tbody
@@ -18,19 +18,24 @@
 			"
 		>
 			<tr v-for="task in tasks" :key="task.id">
-				<td class="text-center p-1">{{ task.id }}</td>
-				<td class="p-1">{{ task.title }}</td>
-				<td class="p-1">{{ task.description }}</td>
-				<td class="p-1">{{ task.reward }}</td>
-				<td class="p-1">{{ task.user === 'ALL' ? 'Всем' : task.user }}</td>
-				<td class="p-1">
+				<td class="text-center px-2 py-1">{{ task.id }}</td>
+				<td class="px-2 py-1">{{ task.title }}</td>
+				<td class="px-2 py-1">{{ task.description }}</td>
+				<td class="px-2 py-1">{{ task.reward }}</td>
+				<td class="px-2 py-1">{{ task.user === 'ALL' ? 'Всех' : task.user }}</td>
+				<td class="px-2 py-1">
 					<DangerButton @click="deleteTask(task.id)">Удалить</DangerButton>
 				</td>
 			</tr>
 		</tbody>
 		<tfoot>
-			<tr>
-				<th class="invisible">id</th>
+			<tr class="invisible">
+				<th class="px-2 py-1">id</th>
+				<th class="px-2 py-1">Название</th>
+				<th class="px-2 py-1">Описание</th>
+				<th class="px-2 py-1">Награда</th>
+				<th class="px-2 py-1">Пользователь</th>
+				<th class="px-2 py-1">Действия</th>
 			</tr>
 		</tfoot>
 	</table>

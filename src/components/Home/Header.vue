@@ -16,13 +16,13 @@
 				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/VK-Logo.svg" alt="VK">
 			</a>
 			<a href="https://t.me/japanclubmirea">
-				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/Telegram-Logo.svg" alt="VK">
+				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/Telegram-Logo.svg" alt="Telegram">
 			</a>
 			<a href="https://www.youtube.com/@user-ot1vk5tc2i">
-				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/Youtube-Logo.svg" alt="VK">
+				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/Youtube-Logo.svg" alt="Youtube">
 			</a>
 			<a href="https://discord.com/invite/whUKEvMjgy">
-				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/Discord-Logo.svg" alt="VK">
+				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/Discord-Logo.svg" alt="Discord">
 			</a>
 			
 		</div>

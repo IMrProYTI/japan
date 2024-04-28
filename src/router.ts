@@ -53,7 +53,7 @@ const routes = [
 		]
 	},
 	{
-		name: "Участники",
+		name: "Судейство",
 		path: '/judge',
 		component: Judge,
 		meta: { requiresAuth: false },

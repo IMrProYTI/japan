@@ -1,13 +1,14 @@
 <template>
 	<table v-if="tasks !== null" class="w-max rounded table-auto text-white bg-blue-600 dark:bg-slate-900">
 		<thead>
-			<tr>
-				<th class="px-2 py-1">id</th>
-				<th class="px-2 py-1">Название</th>
-				<th class="px-2 py-1">Описание</th>
-				<th class="px-2 py-1">Награда</th>
-				<th class="px-2 py-1">Задание для</th>
-				<th class="px-2 py-1">Действия</th>
+			<tr class="*:px-2 *:py-1">
+				<th>id</th>
+				<th>Название</th>
+				<th>Описание</th>
+				<th>Награда</th>
+				<th>Задание для</th>
+				<th>Открыт?</th>
+				<th>Действия</th>
 			</tr>
 		</thead>
 		<tbody
@@ -17,25 +18,29 @@
 				bg-neutral-200 dark:bg-slate-800
 			"
 		>
-			<tr v-for="task in tasks" :key="task.id">
-				<td class="text-center px-2 py-1">{{ task.id }}</td>
-				<td class="px-2 py-1">{{ task.title }}</td>
-				<td class="px-2 py-1">{{ task.description }}</td>
-				<td class="px-2 py-1">{{ task.reward }} балл{{ task.reward != 1 ? task.reward == 5 ? 'ов' : 'а' : '' }}</td>
-				<td class="px-2 py-1">{{ task.user === 'ALL' ? 'Всех' : task.user }}</td>
-				<td class="px-2 py-1">
+			<tr v-for="task in tasks" :key="task.id" class="*:px-2 *:py-1">
+				<td class="text-center">{{ task.id }}</td>
+				<td>{{ task.title }}</td>
+				<td class="max-w-96">{{ task.description }}</td>
+				<td>{{ task.reward }} балл{{ task.reward != 1 ? task.reward == 5 ? 'ов' : 'а' : '' }}</td>
+				<td>{{ task.user === 'ALL' ? 'Всех' : getParticipant(Number(task.user))?.nickname }}</td>
+				<td>{{ task.is_opened ? 'Да' : 'Нет' }}</td>
+				<td class="*:mx-0.5">
+					<CommonButton :class="task.is_opened ? 'hidden' : ''" @click="openTask(task.id)">Открыть</CommonButton>
+					<CommonButton :class="task.is_opened ? '' : 'hidden'" @click="closeTask(task.id)">Закрыть</CommonButton>
 					<DangerButton @click="deleteTask(task.id)">Удалить</DangerButton>
 				</td>
 			</tr>
 		</tbody>
 		<tfoot>
-			<tr class="invisible">
-				<th class="px-2 py-1">id</th>
-				<th class="px-2 py-1">Название</th>
-				<th class="px-2 py-1">Описание</th>
-				<th class="px-2 py-1">Награда</th>
-				<th class="px-2 py-1">Пользователь</th>
-				<th class="px-2 py-1">Действия</th>
+			<tr class="*:px-2 *:py-1 invisible">
+				<th>id</th>
+				<th>Название</th>
+				<th>Описание</th>
+				<th>Награда</th>
+				<th>Задание для</th>
+				<th>Открыт?</th>
+				<th>Действия</th>
 			</tr>
 		</tfoot>
 	</table>
@@ -46,34 +51,65 @@ import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
 import DangerButton from '../root/DangerButton.vue';
+import CommonButton from '../root/CommonButton.vue';
 
-const data = (await supabase.from('tasks').select('id,title,description,user,reward')).data;
+const dataTasks = (await supabase.from('tasks').select('id,title,description,user,reward,is_opened')).data;
+const dataParticipant = (await supabase.from('participant').select('id,nickname')).data;
 
 const tasks: Ref<{
-  id: any;
-  title: any;
-  description: any;
-  user: any;
-  reward: any;
-}[]> = ref(data === null ? [] : data);
+  id: number;
+  title: string;
+  description: string;
+  reward: number;
+	is_opened: boolean;
+  user: string;
+}[]> = ref(dataTasks === null ? [] : dataTasks.sort((a, b) => a.id - b.id));
 
-async function deleteTask(taskId: string) {
-	await supabase.from('tasks').delete().eq('id', taskId);
+const participants: Ref<{
+  id: number;
+  nickname: string;
+}[]> = ref(dataParticipant === null ? [] : dataParticipant.sort((a, b) => a.id - b.id));
+
+function getParticipant(participantId: number) {
+	return participants.value.find((el) => { return el.id === participantId })
 };
 
-function handleTasksInsert(payload: any) {
-	tasks.value.push(payload.new);
+async function openTask(taskId: number) {
+	await supabase.from('tasks').update({ is_opened: true }).eq('id', taskId);
 };
 
-function handleTasksDelete(payload: { old: { id: number } }) {
-	const check = (el: { id: number }) => { return el.id !== payload.old.id; };
-	tasks.value = tasks.value.filter(check);
+async function closeTask(taskId: number) {
+	await supabase.from('tasks').update({ is_opened: false }).eq('id', taskId);
+};
+
+async function deleteTask(taskId: number) {
+	if (confirm("Вы уверены, что хотите удалить задание?\nНажмите ОК, если вы собираетесь удалить задание!"))
+		await supabase.from('tasks').delete().eq('id', taskId);
+};
+
+function handleInsert(payload: any, refArray: Ref<any[]>): void {
+	refArray.value.push(payload.new);
+};
+
+function handleUpdate(payload: any, refArray: Ref<any[]>): void {
+	handleDelete(payload, refArray);
+	handleInsert(payload, refArray);
+	refArray.value = refArray.value.sort((a, b) => a.id - b.id);
+};
+
+function handleDelete(payload: any, refArray: Ref<any[]>): void {
+	const check = (el: any) => { return el.id !== payload.old.id; };
+	refArray.value = refArray.value.filter(check);
 };
 
 supabase
   .channel('custom-all-channel')
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasks' }, handleTasksInsert)
-  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, handleTasksDelete)
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasks' }, (payload) => { handleInsert(payload, tasks) })
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasks' }, (payload) => { handleUpdate(payload, tasks) })
+  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, (payload) => { handleDelete(payload, tasks) })
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'participant' }, (payload) => { handleInsert(payload, participants) })
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant' }, (payload) => { handleUpdate(payload, participants) })
+  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'participant' }, (payload) => { handleDelete(payload, participants) })
   .subscribe();
 </script>
 

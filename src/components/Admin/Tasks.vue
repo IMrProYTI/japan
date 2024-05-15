@@ -3,15 +3,8 @@
     <div class="flex flex-col items-start w-fit space-y-2">
       <div class="flex justify-center items-center space-x-2">
         <p class="h-fit">Добаивть задание:</p>
-        <!-- <input
-          class="rounded p-1 bg-neutral-100 dark:bg-slate-900"
-          v-model="user"
-          :placeholder="checkbox ? `Всем` : `Игроку`"
-          :disabled="checkbox"
-          type="text"
-        > -->
         <select
-          class="rounded p-1 bg-neutral-100 dark:bg-slate-900"
+          class="rounded p-1 disabled:text-slate-500 bg-neutral-100 dark:bg-slate-900"
           v-model="user"
           :placeholder="checkbox ? `Всем` : `Игроку`"
           :disabled="checkbox"
@@ -60,7 +53,7 @@
       <TasksTable />
           
       <template #fallback>
-        Loading...
+        <Loading class="min-h-16" />
       </template>
     </Suspense>
   </div>
@@ -70,6 +63,7 @@
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
+import Loading from '../root/Loading.vue';
 import TasksTable from './TasksTable.vue';
 import ApproveButton from '../root/ApproveButton.vue';
 
@@ -81,8 +75,8 @@ const reward: Ref<string> = ref("");
 
 const checkbox: Ref<boolean> = ref(true);
 const participants: Ref<{
-  id: any;
-  nickname: any;
+  id: number;
+  nickname: string;
 }[]> = ref([]);
 const errorMessage: Ref<string | undefined> = ref("");
 
@@ -105,8 +99,9 @@ async function createTask() {
 	const { error } = await supabase.from('tasks').insert({
 		title: title.value,
 		description: description.value,
+		reward: Number(reward.value),
+    is_opened: true,
 		user: checkbox.value ? 'ALL' : user.value,
-		reward: Number(reward.value)
 	}).select();
 
   title.value = '';

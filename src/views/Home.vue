@@ -14,22 +14,18 @@
             </p>
           </div>
         </div>
-        <!-- <div class="absolute bottom-0 w-full h-1/6 bg-gradient-to-t from-neutral-300 dark:from-slate-950" /> -->
+        <div class="absolute bottom-0 right-0 invisible 2xl:visible scale-75">
+          <iframe
+            src="https://discord.com/widget?id=1166086254396461066"
+            width="350" height="500"
+            allowtransparency="true" frameborder="0"
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+            class="absolute bottom-5 right-5"
+          >
+          </iframe>
+        </div>
       </div>
-      <!-- <div class="text-animate flex justify-center p-2">
-        <span class="material-symbols">expand_more</span>
-      </div> -->
     </div>
-
-    <!-- <div class="container flex flex-col justify-center items-center p-4 m-auto">
-      <div class="">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt ullam corporis, fugit tempore possimus veritatis aliquid dolore sint enim magnam voluptas odio? Odit vero cupiditate fugit corrupti. Quisquam, odit aliquid?
-      </div>
-      <div class="">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt ullam corporis, fugit tempore possimus veritatis aliquid dolore sint enim magnam voluptas odio? Odit vero cupiditate fugit corrupti. Quisquam, odit aliquid?
-      </div>
-    </div> -->
-
     <Footer />
   </div>
 </template>

@@ -8,7 +8,7 @@
     </div>
     <div class="flex">
       <Mode />
-      <DangerButton @click="SignOut">Выйти из акаунта</DangerButton>
+      <DangerButton @click="SignOut">Выйти из аккаунта</DangerButton>
     </div>
   </nav>
 </template>

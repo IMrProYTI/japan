@@ -94,7 +94,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _from) => {
-	if (to.meta.requiresAuth && !(await checkAuth()) && !DEBUG) {
+	if (!DEBUG && to.meta.requiresAuth && !(await checkAuth())) {
 		return {
 			path: '/login',
 			query: { redirect: to.fullPath },

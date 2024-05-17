@@ -6,7 +6,8 @@
 				<th>Название</th>
 				<th>Описание</th>
 				<th>Награда</th>
-				<th>Задание для</th>
+				<!-- <th>Задание для</th> -->
+				<th>Выполнило</th>
 				<th>Открыт?</th>
 				<th>Действия</th>
 			</tr>
@@ -23,8 +24,14 @@
 				<td>{{ task.title }}</td>
 				<td class="max-w-96">{{ task.description }}</td>
 				<td>{{ task.reward }} балл{{ task.reward != 1 ? task.reward == 5 ? 'ов' : 'а' : '' }}</td>
-				<td>{{ task.user === 'ALL' ? 'Всех' : getParticipant(Number(task.user))?.nickname }}</td>
-				<td>{{ task.is_opened ? 'Да' : 'Нет' }}</td>
+				<!-- <td>{{ task.user === 'ALL' ? 'Всех' : getParticipant(Number(task.user))?.nickname }}</td> -->
+				<td>{{ calcCompleted(task.id) }}</td>
+				<td>
+					<div class="flex justify-center items-center">
+						<span v-if="task.is_opened" class="material-symbols text-green-600">check</span>
+						<span v-else class="material-symbols text-red-600">close</span>
+					</div>
+				</td>
 				<td class="*:mx-0.5">
 					<CommonButton :class="task.is_opened ? 'hidden' : ''" @click="openTask(task.id)">Открыть</CommonButton>
 					<CommonButton :class="task.is_opened ? '' : 'hidden'" @click="closeTask(task.id)">Закрыть</CommonButton>
@@ -38,7 +45,8 @@
 				<th>Название</th>
 				<th>Описание</th>
 				<th>Награда</th>
-				<th>Задание для</th>
+				<!-- <th>Задание для</th> -->
+				<th>Выполнило</th>
 				<th>Открыт?</th>
 				<th>Действия</th>
 			</tr>
@@ -54,7 +62,7 @@ import DangerButton from '../root/DangerButton.vue';
 import CommonButton from '../root/CommonButton.vue';
 
 const dataTasks = (await supabase.from('tasks').select('id,title,description,user,reward,is_opened')).data;
-const dataParticipant = (await supabase.from('participant').select('id,nickname')).data;
+const dataParticipant = (await supabase.from('participant').select('id,nickname,completed')).data;
 
 const tasks: Ref<{
   id: number;
@@ -68,6 +76,8 @@ const tasks: Ref<{
 const participants: Ref<{
   id: number;
   nickname: string;
+	completed: number[];
+	points?: number;
 }[]> = ref(dataParticipant === null ? [] : dataParticipant.sort((a, b) => a.id - b.id));
 
 function getParticipant(participantId: number) {
@@ -100,6 +110,14 @@ function handleUpdate(payload: any, refArray: Ref<any[]>): void {
 function handleDelete(payload: any, refArray: Ref<any[]>): void {
 	const check = (el: any) => { return el.id !== payload.old.id; };
 	refArray.value = refArray.value.filter(check);
+};
+
+function calcCompleted(taskId: number) {
+	let completed = 0;
+	for (let i = 0; i < participants.value.length; i++) {
+		if (participants.value[i].completed.includes(taskId)) completed += 1;
+	};
+	return completed;
 };
 
 supabase

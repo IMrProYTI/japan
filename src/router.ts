@@ -17,6 +17,8 @@ import Login from './views/Login.vue';
 import Overlay from './views/Overlay.vue';
 // import OverlayPlayer from './views/OverlayPlayer.vue';
 
+import Leaderboard from './views/Leaderboard.vue';
+
 const DEBUG: boolean = false;
 
 const routes = [
@@ -86,6 +88,12 @@ const routes = [
 			}
 		]
 	},
+	{
+		name: "Лидерборд",
+		path: '/leaderboard',
+		component: Leaderboard,
+		meta: { requiresAuth: false }
+	}
 ];
 
 const router = createRouter({

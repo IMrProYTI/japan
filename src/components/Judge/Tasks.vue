@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-center items-center lg:items-start p-2 space-y-8">
+  <div class="flex flex-col justify-center items-center lg:items-start space-y-8">
     <Suspense>
       <TasksTable />
           

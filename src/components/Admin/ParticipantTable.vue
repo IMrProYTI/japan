@@ -101,7 +101,7 @@ function calcPoints() {
 		};
 	};
 };
-calcPoints()
+calcPoints();
 </script>
 
 <style scoped>

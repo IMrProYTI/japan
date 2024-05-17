@@ -27,7 +27,7 @@
           <option value="4">4</option>
           <option value="5">5</option>
         </select>
-        <input v-model="checkbox" type="checkbox">
+        <input v-model="checkbox" disabled type="checkbox">
         <p class="h-fit">Всем?</p>
       </div>
       <div class="flex flex-col space-y-2">

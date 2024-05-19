@@ -36,10 +36,13 @@ const participants: Ref<{
 }[]> = ref(dataParticipants === null ? [] : dataParticipants);
 
 const sortFunc = (a: { id: number, points?: number }, b: { id: number, points?: number }) => {
-  if (a.points && b.points)
-    return b.points - a.points;
-  else
-    return b.id - a.id;
+  a.points = a.points || 0; 
+  b.points = b.points || 0;
+  if (a.points === b.points) {
+    return a.id - b.id;
+  } else {
+    return a.points - b.points;
+  };
 };
 
 function handleInsert(payload: any, refArray: Ref<any[]>): void {
@@ -50,7 +53,7 @@ function handleUpdate(payload: any, refArray: Ref<any[]>): void {
 	handleDelete(payload, refArray);
 	handleInsert(payload, refArray);
   calcPoints();
-	refArray.value = refArray.value.sort(sortFunc);
+	refArray.value = refArray.value.sort(sortFunc).reverse();
 };
 
 function handleDelete(payload: any, refArray: Ref<any[]>): void {
@@ -66,6 +69,7 @@ function calcPoints() {
 			participants.value[i].points += tasks.value.find((el) => { return el.id === participants.value[i].completed[j] })?.reward || 0;
 		};
 	};
+	participants.value = participants.value.sort(sortFunc).reverse();
 };
 calcPoints();
 

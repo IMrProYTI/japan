@@ -38,31 +38,31 @@ const participant: Ref<{
 	completed: number[];
 } | null> = ref(dataParticipant === null ? null : dataParticipant[0]);
 
-function handleTasksInsert(payload: any) {
-	tasks.value.push(payload.new);
-};
-
-function handleTasksUpdate(payload: any) {
-	handleTasksDelete(payload);
-	handleTasksInsert(payload);
-	tasks.value = tasks.value.sort((a, b) => a.id - b.id);
-};
-
 function handleParticipantUpdate(payload: any) {
 	participant.value = payload.new;
 };
 
-function handleTasksDelete(payload: { old: { id: number } }) {
-	const check = (el: { id: number }) => { return el.id !== payload.old.id; };
-	tasks.value = tasks.value.filter(check);
+function handleInsert(payload: any, refArray: Ref<any[]>): void {
+	refArray.value.push(payload.new);
+};
+
+function handleUpdate(payload: any, refArray: Ref<any[]>): void {
+	handleDelete(payload, refArray);
+	handleInsert(payload, refArray);
+	refArray.value = refArray.value.sort((a, b) => a.id - b.id);
+};
+
+function handleDelete(payload: any, refArray: Ref<any[]>): void {
+	const check = (el: any) => { return el.id !== payload.old.id; };
+	refArray.value = refArray.value.filter(check);
 };
 
 supabase
   .channel('custom-all-channel')
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasks' }, handleTasksInsert)
-  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasks' }, handleTasksUpdate)
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant' }, handleParticipantUpdate)
-  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, handleTasksDelete)
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasks' }, (payload) => { handleInsert(payload, tasks) })
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasks' }, (payload) => { handleUpdate(payload, tasks) })
+  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, (payload) => { handleDelete(payload, tasks) })
   .subscribe();
 </script>
 

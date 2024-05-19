@@ -80,6 +80,7 @@ const participants: Ref<{
 	points?: number;
 }[]> = ref(dataParticipant === null ? [] : dataParticipant.sort((a, b) => a.id - b.id));
 
+// @ts-ignore
 function getParticipant(participantId: number) {
 	return participants.value.find((el) => { return el.id === participantId })
 };
@@ -112,8 +113,8 @@ function handleDelete(payload: any, refArray: Ref<any[]>): void {
 	refArray.value = refArray.value.filter(check);
 };
 
-function calcCompleted(taskId: number) {
-	let completed = 0;
+function calcCompleted(taskId: number): number {
+	let completed: number = 0;
 	for (let i = 0; i < participants.value.length; i++) {
 		if (participants.value[i].completed.includes(taskId)) completed += 1;
 	};

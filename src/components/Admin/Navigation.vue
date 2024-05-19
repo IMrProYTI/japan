@@ -1,0 +1,46 @@
+<template>
+  <nav class="flex justify-between items-center p-2">
+    <div class="flex space-x-2">
+      <LinkButton to="/">Главная</LinkButton>
+      <LinkButton to="/admin/tasks">Задания</LinkButton>
+      <LinkButton to="/admin/judge">Судьи</LinkButton>
+      <LinkButton to="/admin/participant">Участники</LinkButton>
+      <div />
+      <a 
+        class="px-2 py-1 rounded-md border-2 border-transparent text-white hover:border-blue-700 bg-blue-600 active:bg-blue-700"
+        href="/leaderboard"
+        target="_blank"
+      >
+        Таблица лидеров
+      </a>
+      <a
+        class="px-2 py-1 rounded-md border-2 border-transparent text-white hover:border-blue-700 bg-blue-600 active:bg-blue-700"
+        href="/overlay"
+        target="_blank"
+      >
+        Оверлей
+      </a>
+    </div>
+    <div class="flex">
+      <Mode />
+      <DangerButton @click="SignOut">Выйти из аккаунта</DangerButton>
+    </div>
+  </nav>
+</template>
+
+<script setup lang="ts">
+import supabase from '../../supabase';
+
+import Mode from '../root/Mode.vue';
+import LinkButton from '../root/LinkButton.vue';
+import DangerButton from '../root/DangerButton.vue';
+
+async function SignOut() {
+  const { error } = await supabase.auth.signOut();
+  if (!error?.message) window.location.reload();
+};
+</script>
+
+<style scoped>
+
+</style>

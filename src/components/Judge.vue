@@ -2,7 +2,7 @@
   <div class="w-screen min-h-screen dark:text-white dark:bg-slate-950">
     <div v-if="$route.params.player" class="flex flex-col justify-center items-center">
       <div class="*:text-xl *:text-center p-2">
-        <h1>Вы судите: {{ $route.params.player }}</h1>
+        <h1>Задания: {{ $route.params.player }}</h1>
         <p>{{ `Текущее время: ${getTimer()}` }}</p>
       </div>
       <Tasks />

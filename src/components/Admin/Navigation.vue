@@ -18,7 +18,7 @@
         href="/overlay"
         target="_blank"
       >
-        Оверлей
+        Таблица заданий
       </a>
     </div>
     <div class="flex">

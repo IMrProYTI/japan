@@ -104,7 +104,7 @@ async function createTask() {
 		title: title.value,
 		description: description.value,
 		reward: Number(reward.value),
-    is_opened: true,
+    is_opened: false,
 		user: checkbox.value ? 'ALL' : user.value,
 	}).select();
 

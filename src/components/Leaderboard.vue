@@ -5,7 +5,7 @@
       <div
 				class="flex justify-between items-center *:w-fit *:h-fit p-2 m-2 space-x-2 rounded-md text-lg bg-yellow-200"
 			>
-				<h1>{{ participant.nickname }}</h1>
+				<h1 class="truncate">{{ participant.nickname }}</h1>
 				<p>{{ participant.points }}</p>
 			</div>
     </div>

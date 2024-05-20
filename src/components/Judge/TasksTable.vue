@@ -15,20 +15,43 @@
 				bg-neutral-200 dark:bg-slate-800
 			"
 		>
-			<tr v-for="task in tasks" :key="task.id" class="*:px-2 *:py-1" :class="task.is_opened ? '' : 'hidden'">
-				<td>{{ task.title }}</td>
-				<td class="max-w-96 hidden md:table-cell">{{ task.description }}</td>
+			<tr
+				class="*:*:flex *:*:items-center *:*:p-0.5"
+				:class="task.is_opened ? '' : 'hidden'"
+				v-for="task in tasks" 
+				:key="task.id" 
+			>
+				<td class="ps-1">
+					<p>{{ task.title }}</p>
+				</td>
+				<td class="hidden md:table-cell">
+					<p>{{ task.description }}</p>
+				</td>
 				<td>
-					<div class="flex justify-center items-center">
-						{{ participant.completed.includes(task.id) ? 'Выполнено' : 'Не выполнено' }}
+					<div class="justify-center">
+						<p>{{ participant.completed.includes(task.id) ? 'Выполнено' : 'Не выполнено' }}</p>
 						<span v-if="participant.completed.includes(task.id)" class="material-symbols text-green-600">check</span>
 						<span v-else class="material-symbols text-red-600">close</span>
 					</div>
 				</td>
 				<td v-if="query.key">
-					<div class="flex justify-center items-center *:mx-0.5">
-						<DangerButton v-if="participant.completed.includes(task.id)" @click="cancelTask(task.id)">Отмена</DangerButton>
-						<ApproveButton v-else @click="completeTask(task.id)">Завершить</ApproveButton>
+					<div class="justify-center *:mx-0.5">
+						<DangerButton
+							class="flex items-center w-full space-x-1"
+							v-if="participant.completed.includes(task.id)"
+							@click="cancelTask(task.id)"
+						>
+							<p class="flex-1">Отменить</p>
+							<span class="material-symbols">cancel</span>
+						</DangerButton>
+						<ApproveButton
+							class="flex items-center w-full space-x-1"
+							v-else
+							@click="completeTask(task.id)"
+						>
+							<p class="flex-1">Зачесть</p>
+							<span class="material-symbols">check_circle</span>
+						</ApproveButton>
 					</div>
 				</td>
 			</tr>

@@ -1,5 +1,5 @@
 <template>
-	<table v-if="tasks !== null" class="w-max rounded table-auto text-white bg-blue-600 dark:bg-slate-900">
+	<table v-if="tasks !== null" class="rounded table-auto text-white bg-blue-600 dark:bg-slate-900">
 		<thead>
 			<tr class="*:px-2 *:py-1">
 				<th>id</th>
@@ -19,25 +19,41 @@
 				bg-neutral-200 dark:bg-slate-800
 			"
 		>
-			<tr v-for="task in tasks" :key="task.id" class="*:px-2 *:py-1">
-				<td class="text-center">{{ task.id }}</td>
-				<td>{{ task.title }}</td>
-				<td class="max-w-96">{{ task.description }}</td>
-				<td>{{ task.reward }} балл{{ task.reward != 1 ? task.reward == 5 ? 'ов' : 'а' : '' }}</td>
-				<!-- <td>{{ task.user === 'ALL' ? 'Всех' : getParticipant(Number(task.user))?.nickname }}</td> -->
+			<tr
+				class="*:*:flex *:*:items-center *:*:p-0.5"
+				v-for="task in tasks"
+				:key="task.id"
+			>
 				<td>
-					<p class="w-fit m-auto">{{ calcCompleted(task.id) }} участник{{ calcCompleted(task.id) != 1 ? calcCompleted(task.id) == 5 ? 'ов' : 'а' : '' }}</p>
+					<p class="justify-center">{{ task.id }}</p>
 				</td>
 				<td>
-					<div class="flex justify-center items-center">
+					<p>{{ task.title }}</p>
+				</td>
+				<td>
+					<p>{{ task.description }}</p>
+				</td>
+				<td>
+					<p class="justify-center">{{ task.reward }} балл{{ task.reward != 1 ? task.reward == 5 ? 'ов' : 'а' : '' }}</p>
+				</td>
+				<!-- <td>{{ task.user === 'ALL' ? 'Всех' : getParticipant(Number(task.user))?.nickname }}</td> -->
+				<td>
+					<p class="justify-center">{{ calcCompleted(task.id) }}</p>
+				</td>
+				<td>
+					<div class="justify-center">
 						<span v-if="task.is_opened" class="material-symbols text-green-600">check</span>
 						<span v-else class="material-symbols text-red-600">close</span>
 					</div>
 				</td>
-				<td class="*:mx-0.5">
-					<CommonButton v-if="task.is_opened" @click="closeTask(task.id)">Закрыть</CommonButton>
-					<CommonButton v-else @click="openTask(task.id)">Открыть</CommonButton>
-					<DangerButton @click="deleteTask(task.id)">Удалить</DangerButton>
+				<td>
+					<div class="*:mx-0.5">
+						<CommonButton v-if="task.is_opened" @click="closeTask(task.id)">Закрыть</CommonButton>
+						<CommonButton v-else @click="openTask(task.id)">Открыть</CommonButton>
+						<DangerButton class="flex justify-center items-center px-0.5 py-0.5" @click="deleteTask(task.id)">
+							<span class="material-symbols">delete</span>
+						</DangerButton>
+					</div>
 				</td>
 			</tr>
 		</tbody>

@@ -45,11 +45,11 @@
           type="text"
         >
         </textarea>
+        <ApproveButton class="w-full" @click="createTask">Добавить</ApproveButton>
       </div>
-      <ApproveButton class="w-full" @click="createTask">Добавить</ApproveButton>
       <p v-if="errorMessage" class="font-bold text-red-700">{{ errorMessage }}</p>
     </div>
-    <div class="flex flex-col justify-center items-center w-fit space-y-2">
+    <div class="flex flex-col justify-center items-center w-fit max-w-full space-y-2">
       <Timer class="font-semibold text-xl" />
       <Suspense>
         <TasksTable />

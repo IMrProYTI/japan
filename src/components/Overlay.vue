@@ -6,7 +6,7 @@
 				v-if="((task.user === 'ALL' || task.user === $route.params.player) || (participant && !participant.completed.includes(task.id))) && task.is_opened"
 				class="flex justify-between items-center *:w-fit *:h-fit p-2 m-2 space-x-2 rounded-md text-lg bg-yellow-200"
 			>
-				<h1>{{ task.title }}</h1>
+				<h1 class="truncate">{{ task.title }}</h1>
 				<p>{{ task.reward }}</p>
 			</div>
     </div>

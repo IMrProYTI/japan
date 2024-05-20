@@ -45,17 +45,20 @@
           type="text"
         >
         </textarea>
+        <ApproveButton class="w-full" @click="createTask">Добавить</ApproveButton>
       </div>
-      <ApproveButton class="w-full" @click="createTask">Добавить</ApproveButton>
       <p v-if="errorMessage" class="font-bold text-red-700">{{ errorMessage }}</p>
     </div>
-    <Suspense>
-      <TasksTable />
-          
-      <template #fallback>
-        <Loading class="min-h-16" />
-      </template>
-    </Suspense>
+    <div class="flex flex-col justify-center items-center w-fit max-w-full space-y-2">
+      <Timer class="font-semibold text-xl" />
+      <Suspense>
+        <TasksTable />
+
+        <template #fallback>
+          <Loading class="min-h-16" />
+        </template>
+      </Suspense>
+    </div>
   </div>
 </template>
 
@@ -63,6 +66,7 @@
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
+import Timer from '../root/Timer.vue';
 import Loading from '../root/Loading.vue';
 import TasksTable from './TasksTable.vue';
 import ApproveButton from '../root/ApproveButton.vue';
@@ -100,7 +104,7 @@ async function createTask() {
 		title: title.value,
 		description: description.value,
 		reward: Number(reward.value),
-    is_opened: true,
+    is_opened: false,
 		user: checkbox.value ? 'ALL' : user.value,
 	}).select();
 
@@ -112,11 +116,11 @@ async function createTask() {
   errorMessage.value = error?.message;
 };
 
-(async () => {
-  const { data, error } = await supabase.from('participant').select('id,nickname');
-  if (data) participants.value = data;
-  errorMessage.value = error?.message;
-})();
+// (async () => {
+//   const { data, error } = await supabase.from('participant').select('id,nickname');
+//   if (data) participants.value = data;
+//   errorMessage.value = error?.message;
+// })();
 </script>
 
 <style scoped>

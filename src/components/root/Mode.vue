@@ -25,13 +25,16 @@ function changeTheme() {
 	if (localStorage.theme !== undefined) {
 		if (localStorage.theme === 'dark') {
 			localStorage.setItem('theme', 'light');
-			DarkMode();
 		}
 		else {
 			localStorage.setItem('theme', 'dark');
-			DarkMode();
 		};
 	} else {
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			localStorage.setItem('theme', 'light');
+		} else {
+			localStorage.setItem('theme', 'dark');
+		};
 	};
 	DarkMode();
 };

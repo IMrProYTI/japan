@@ -16,16 +16,45 @@
 				bg-neutral-200 dark:bg-slate-800
 			"
 		>
-			<tr v-for="judge in judges" :key="judge.id" class="*:px-2 *:py-1">
-				<td>{{ judge.id }}</td>
-				<td>{{ judge.judge }}</td>
-				<td>{{ getParticipant(judge.participant)?.nickname }}</td>
+			<tr
+				class="*:*:flex *:*:items-center *:*:p-0.5"
+				v-for="judge in judges" 
+				:key="judge.id"
+			>
 				<td>
-					<a :href="`/judge/${getParticipant(judge.participant)?.nickname}?key=${judge.key}`" target="_blank">Ссылка</a>
+					<p class="justify-center">{{ judge.id }}</p>
 				</td>
-				<td class="*:m-0.5">
-					<SemiDangerButton @click="updateJudge(judge.id)">Сбросить ключ</SemiDangerButton>
-					<DangerButton @click="deleteJudge(judge.id)">Удалить</DangerButton>
+				<td>
+					<p>{{ judge.judge }}</p>
+				</td>
+				<td>
+					<p>{{ getParticipant(judge.participant)?.nickname }}</p>
+				</td>
+				<td>
+					<div class="justify-center">
+						<a
+							class="
+								flex justify-center items-center
+								px-2 py-1 rounded-md border-2 border-transparent text-black dark:text-white
+								hover:border-neutral-400 bg-neutral-300 active:bg-neutral-400
+								dark:bg-slate-700 dark:hover:border-slate-600 dark:active:bg-slate-600
+							"
+							:href="`/judge/${getParticipant(judge.participant)?.nickname}?key=${judge.key}`"
+							target="_blank"
+						>
+							<span class="material-symbols">open_in_new</span>
+						</a>
+					</div>
+				</td>
+				<td>
+					<div class="justify-center *:m-0.5">
+						<SemiDangerButton class="flex justify-center items-center" @click="updateJudge(judge.id)">
+							<span class="material-symbols">device_reset</span>
+						</SemiDangerButton>
+						<DangerButton class="flex justify-center items-center" @click="deleteJudge(judge.id)">
+							<span class="material-symbols">delete</span>
+						</DangerButton>
+					</div>
 				</td>
 			</tr>
 		</tbody>

@@ -7,9 +7,9 @@
 			<LinkButton to="/admin/tasks">
 				<p>Админка</p>
 			</LinkButton>
-			<LinkButton v-show="!authorizedStatus" to="/login">
+			<!-- <LinkButton v-show="!authorizedStatus" to="/login">
 				<p>Авторизация</p>
-			</LinkButton>
+			</LinkButton> -->
 		</nav>
 		<div class="flex justify-center items-center px-2">
 			<a href="https://vk.com/japanclubm">
@@ -30,18 +30,18 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
-import { checkAuth } from '../../supabase';
+// import { Ref, ref } from 'vue';
+// import { checkAuth } from '../../supabase';
 
 import LinkButton from './LinkButton.vue';
 
-const authorizedStatus: Ref<boolean> = ref(true);
+// const authorizedStatus: Ref<boolean> = ref(true);
 
-async function isAuthorized(): Promise<void> {
-	authorizedStatus.value = await checkAuth();
-};
+// async function isAuthorized(): Promise<void> {
+// 	authorizedStatus.value = await checkAuth();
+// };
 
-isAuthorized();
+// isAuthorized();
 </script>
 
 <style scoped>

@@ -16,13 +16,29 @@
 				bg-neutral-200 dark:bg-slate-800
 			"
 		>
-			<tr v-for="participant in participants" :key="participant.id" class="*:px-2 *:py-1">
-				<td class="text-center">{{ participant.id }}</td>
-				<td>{{ participant.nickname }}</td>
-				<td>{{ participant.uid }}</td>
-				<td>{{ participant.points }}</td>
+			<tr
+				class="*:*:flex *:*:items-center *:*:p-0.5"
+				v-for="participant in participants"
+				:key="participant.id"
+			>
 				<td>
-					<DangerButton @click="deleteParticipant(participant.id)">Удалить</DangerButton>
+					<p class="justify-center">{{ participant.id }}</p>
+				</td>
+				<td>
+					<p>{{ participant.nickname }}</p>
+				</td>
+				<td>
+					<p>{{ participant.uid }}</p>
+				</td>
+				<td>
+					<p class="justify-center">{{ participant.points }}</p>
+				</td>
+				<td>
+					<div class="justify-center">
+						<DangerButton class="flex justify-center items-center px-0.5 py-0.5" @click="deleteParticipant(participant.id)">
+							<span class="material-symbols">delete</span>
+						</DangerButton>
+					</div>
 				</td>
 			</tr>
 		</tbody>

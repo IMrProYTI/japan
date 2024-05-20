@@ -8,7 +8,7 @@
       <div class="flex justify-start items-center space-x-2">
         <p>Следит за:</p>
         <select
-          class="rounded p-1 disabled:text-slate-500 bg-neutral-100 dark:bg-slate-900"
+          class="rounded p-1 flex-1 disabled:text-slate-500 bg-neutral-100 dark:bg-slate-900"
           v-model="user"
         >
           <option value="" selected disabled>Выберите участника</option>
@@ -43,8 +43,8 @@ const judge: Ref<string> = ref("");
 const user: Ref<string> = ref("");
 
 const participants: Ref<{
-  id: any;
-  nickname: any;
+  id: number;
+  nickname: string;
 }[]> = ref([]);
 
 async function addJudge() {

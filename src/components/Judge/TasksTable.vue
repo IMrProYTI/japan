@@ -18,11 +18,17 @@
 			<tr v-for="task in tasks" :key="task.id" class="*:px-2 *:py-1" :class="task.is_opened ? '' : 'hidden'">
 				<td>{{ task.title }}</td>
 				<td class="max-w-96 hidden md:table-cell">{{ task.description }}</td>
-				<td>{{ participant.completed.includes(task.id) ? 'Выполнено' : 'Не выполнено' }}</td>
+				<td>
+					<div class="flex justify-center items-center">
+						{{ participant.completed.includes(task.id) ? 'Выполнено' : 'Не выполнено' }}
+						<span v-if="participant.completed.includes(task.id)" class="material-symbols text-green-600">check</span>
+						<span v-else class="material-symbols text-red-600">close</span>
+					</div>
+				</td>
 				<td v-if="query.key">
 					<div class="flex justify-center items-center *:mx-0.5">
-						<ApproveButton :class="participant.completed.includes(task.id) ? 'hidden' : ''" @click="completeTask(task.id)">Завершить</ApproveButton>
-						<DangerButton :class="participant.completed.includes(task.id) ? '' : 'hidden'" @click="cancelTask(task.id)">Отмена</DangerButton>
+						<DangerButton v-if="participant.completed.includes(task.id)" @click="cancelTask(task.id)">Отмена</DangerButton>
+						<ApproveButton v-else @click="completeTask(task.id)">Завершить</ApproveButton>
 					</div>
 				</td>
 			</tr>

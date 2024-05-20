@@ -33,8 +33,8 @@
 					</div>
 				</td>
 				<td class="*:mx-0.5">
-					<CommonButton :class="task.is_opened ? 'hidden' : ''" @click="openTask(task.id)">Открыть</CommonButton>
-					<CommonButton :class="task.is_opened ? '' : 'hidden'" @click="closeTask(task.id)">Закрыть</CommonButton>
+					<CommonButton v-if="task.is_opened" @click="closeTask(task.id)">Закрыть</CommonButton>
+					<CommonButton v-else @click="openTask(task.id)">Открыть</CommonButton>
 					<DangerButton @click="deleteTask(task.id)">Удалить</DangerButton>
 				</td>
 			</tr>
@@ -80,7 +80,6 @@ const participants: Ref<{
 	points?: number;
 }[]> = ref(dataParticipant === null ? [] : dataParticipant.sort((a, b) => a.id - b.id));
 
-// @ts-ignore
 function getParticipant(participantId: number) {
 	return participants.value.find((el) => { return el.id === participantId })
 };

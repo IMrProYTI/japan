@@ -116,11 +116,11 @@ async function createTask() {
   errorMessage.value = error?.message;
 };
 
-(async () => {
-  const { data, error } = await supabase.from('participant').select('id,nickname');
-  if (data) participants.value = data;
-  errorMessage.value = error?.message;
-})();
+// (async () => {
+//   const { data, error } = await supabase.from('participant').select('id,nickname');
+//   if (data) participants.value = data;
+//   errorMessage.value = error?.message;
+// })();
 </script>
 
 <style scoped>

@@ -1,13 +1,25 @@
 <template>
-  <div class="text-black p-2">
-    <h1 class="text-center text-2xl">Leaderboard:</h1>
-    <div v-for="participant in participants" :key="participant.id">
-      <div
-				class="flex justify-between items-center *:w-fit *:h-fit p-2 m-2 space-x-2 rounded-md text-lg bg-yellow-200"
-			>
-				<h1 class="truncate">{{ participant.nickname }}</h1>
-				<p>{{ participant.points }}</p>
-			</div>
+  <div class="text-black h-screen overflow-hidden space-y-2 p-2">
+    <h1 class="p-2 rounded-md text-lg text-center text-[#ccbd8f] bg-gradient-to-b from-[#4b5265] to-[#4b526599]">
+      🌸Таблица лидеров:🌸
+    </h1>
+    <h2
+      class="flex space-x-2 *:text-center *:rounded-md *:p-2 text-[#ccbd8f] *:bg-gradient-to-b *:from-[#4b5265] *:to-[#4b526599]"
+    >
+      <p class="basis-2/3">Никнейм:</p>
+      <p class="basis-1/3">Очки:</p>
+    </h2>
+    <div class="relative space-y-2">
+      <transition-group name="participant">
+        <div v-for="participant in participants" :key="participant.id">
+          <div
+		    		class="flex justify-between items-center w-full p-2 rounded-md text-lg bg-gradient-to-b from-[#ebe6db] to-[#ebe6db99]"
+          >
+		    		<h1 class="truncate">{{ participant.nickname }}</h1>
+		    		<p>{{ participant.points }}</p>
+		    	</div>
+        </div>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -83,5 +95,7 @@ supabase
 </script>
 
 <style scoped>
-
+.participant-move {
+  transition: all 1s ease;
+}
 </style>

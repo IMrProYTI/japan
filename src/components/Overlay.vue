@@ -1,14 +1,30 @@
 <template>
-  <div class="text-black p-2">
-    <h1 class="text-center text-2xl">{{ $route.params.player ? `Задания: ${$route.params.player}` : `Все задания:` }}</h1>
-    <div v-for="task in tasks" :key="task.id">
-      <div
-				v-if="((task.user === 'ALL' || task.user === $route.params.player) || (participant && !participant.completed.includes(task.id))) && task.is_opened"
-				class="flex justify-between items-center *:w-fit *:h-fit p-2 m-2 space-x-2 rounded-md text-lg bg-yellow-200"
-			>
-				<h1 class="truncate">{{ task.title }}</h1>
-				<p>{{ task.reward }}</p>
-			</div>
+  <div class="text-black h-screen overflow-hidden space-y-2 p-2">
+    <h1 class="p-2 rounded-md text-lg text-center text-[#ccbd8f] bg-gradient-to-b from-[#4b5265] to-[#4b526599]">
+      {{ $route.params.player ? `🌸Задания: ${$route.params.player}🌸` : `🌸Все задания:🌸` }}
+    </h1>
+    <h2
+      class="flex space-x-2 *:text-center *:rounded-md *:p-2 text-[#ccbd8f] *:bg-gradient-to-b *:from-[#4b5265] *:to-[#4b526599]"
+    >
+      <p class="basis-2/3">Задание:</p>
+      <p class="basis-1/3">Очки:</p>
+    </h2>
+    <div class="relative space-y-2">
+      <transition-group name="task">
+        <div
+          v-for="task in tasks" :key="task.id"
+          v-show="
+            (
+              (task.user === 'ALL' || task.user === $route.params.player) ||
+              (participant && !participant.completed.includes(task.id))
+            ) && task.is_opened
+          "
+          class="flex justify-between items-center w-full p-2 rounded-md text-lg bg-gradient-to-b from-[#ebe6db] to-[#ebe6db99]"
+        >
+		  	  <h1 class="flex-1 truncate">{{ task.title }}</h1>
+		  	  <p>{{ task.reward }}</p>
+        </div>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -67,5 +83,26 @@ supabase
 </script>
 
 <style scoped>
+.task-move {
+  transition: all 1s ease;
+}
 
+.task-enter-active,
+.task-leave-active {
+  transition: opacity 1s ease;
+}
+
+.task-leave-active {
+  position: absolute;
+}
+
+.task-enter-to,
+.task-leave-from {
+  opacity: 1;
+}
+
+.task-leave-to,
+.task-enter-from {
+  opacity: 0;
+}
 </style>

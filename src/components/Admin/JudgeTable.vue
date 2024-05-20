@@ -21,7 +21,15 @@
 				<td>{{ judge.judge }}</td>
 				<td>{{ getParticipant(judge.participant)?.nickname }}</td>
 				<td>
-					<a :href="`/judge/${getParticipant(judge.participant)?.nickname}?key=${judge.key}`" target="_blank">Ссылка</a>
+					<a
+						class="
+							px-2 py-1 rounded-md border-2 border-transparent text-black dark:text-white
+							hover:border-neutral-400 bg-neutral-300 active:bg-neutral-400
+							dark:bg-slate-700 dark:hover:border-slate-600 dark:active:bg-slate-600
+						"
+						:href="`/judge/${getParticipant(judge.participant)?.nickname}?key=${judge.key}`"
+						target="_blank"
+					>Ссылка</a>
 				</td>
 				<td class="*:m-0.5">
 					<SemiDangerButton @click="updateJudge(judge.id)">Сбросить ключ</SemiDangerButton>

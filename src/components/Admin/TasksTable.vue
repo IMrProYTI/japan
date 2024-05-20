@@ -25,7 +25,9 @@
 				<td class="max-w-96">{{ task.description }}</td>
 				<td>{{ task.reward }} балл{{ task.reward != 1 ? task.reward == 5 ? 'ов' : 'а' : '' }}</td>
 				<!-- <td>{{ task.user === 'ALL' ? 'Всех' : getParticipant(Number(task.user))?.nickname }}</td> -->
-				<td>{{ calcCompleted(task.id) }}</td>
+				<td>
+					<p class="w-fit m-auto">{{ calcCompleted(task.id) }} участник{{ calcCompleted(task.id) != 1 ? calcCompleted(task.id) == 5 ? 'ов' : 'а' : '' }}</p>
+				</td>
 				<td>
 					<div class="flex justify-center items-center">
 						<span v-if="task.is_opened" class="material-symbols text-green-600">check</span>

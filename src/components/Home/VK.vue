@@ -13,7 +13,7 @@
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
-const IS_LOAD = true;
+const IS_LOAD = false;
 
 const data: Ref<{
   owner_id: number;

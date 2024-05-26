@@ -20,7 +20,7 @@
 					<!-- <img class="-bottom-10"> -->
 					<img
 						v-for="(el, index) in range(0, maxActualCount)" :key="index"
-						class="absolute object-cover cursor-pointer"
+						class="absolute object-cover"
 						v-show="el === actualIndex"
 						:class="getActualtyle(el)"
 						:src="`/gallery/actual/${el}.jpg`"

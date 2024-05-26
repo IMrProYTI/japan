@@ -1,9 +1,12 @@
 <template>
-	<table v-if="tasks !== null && participant" class="w-max rounded table-auto text-xs sm:text-sm text-white bg-blue-600 dark:bg-slate-900">
+	<table
+		v-if="tasks !== null && participant" 
+		class="w-max rounded table-auto text-xs sm:text-sm text-white bg-blue-600 dark:bg-slate-900"
+	>
 		<thead>
 			<tr class="*:px-1 *:md:px-2 *:py-1">
 				<th>Название</th>
-				<th class="hidden md:table-cell">Описание</th>
+				<th>Описание</th>
 				<th>Статус задания</th>
 				<th v-if="query.key">Действия</th>
 			</tr>
@@ -24,7 +27,7 @@
 				<td class="ps-1">
 					<p>{{ task.title }}</p>
 				</td>
-				<td class="hidden md:table-cell">
+				<td>
 					<p>{{ task.description }}</p>
 				</td>
 				<td>
@@ -59,7 +62,7 @@
 		<tfoot>
 			<tr class="*:px-2 *:py-1 invisible">
 				<th>Название</th>
-				<th class="hidden md:table-cell">Описание</th>
+				<th>Описание</th>
 				<th>Статус задания</th>
 				<th v-if="query.key">Действия</th>
 			</tr>

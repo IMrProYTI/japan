@@ -6,12 +6,12 @@
 			<div class="gallery relative flex flex-col w-full aspect-[8/5] overflow-hidden overflow-x-auto">
 				<div class="flex justify-between flex-1">
 					<div @click="prevActualImage" class="flex justify-center items-center cursor-pointer z-10 px-4">
-						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-neutral-800/75">
+						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_left</span>
 						</button>
 					</div>
 					<div @click="nextActualImage" class="flex justify-center items-center cursor-pointer z-10 px-4">
-						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-neutral-800/75">
+						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_right</span>
 						</button>
 					</div>
@@ -43,12 +43,12 @@
 			<div class="gallery relative flex flex-col w-full aspect-[8/5] overflow-hidden overflow-x-auto">
 				<div class="flex justify-between flex-1">
 					<div @click="prevArchiveImage" class="flex justify-center items-center cursor-pointer z-10 px-4">
-						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-neutral-800/75">
+						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_left</span>
 						</button>
 					</div>
 					<div @click="nextArchiveImage" class="flex justify-center items-center cursor-pointer z-10 px-4">
-						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-neutral-800/75">
+						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_right</span>
 						</button>
 					</div>

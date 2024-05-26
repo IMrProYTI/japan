@@ -1,12 +1,43 @@
 <template>
-	<footer class="flex justify-between items-center p-2 pe-4 text-white bg-neutral-800">
-    <div></div>
-    <p>Разработано: <a class="underline" href="https://poti.netlify.app/">POTI</a></p>
+	<footer class="flex flex-col p-2 pe-4 text-white bg-neutral-800">
+    <hr class="hidden dark:block">
+    <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4 *:flex *:flex-col justify-around items-stretch m-4">
+      <div class="xl:col-start-2">
+        <h4 class="font-semibold text-lg">О нас</h4>
+        <p class="text-wrap w-3/4">
+          Клуб японской культуры ждет новых участников.
+          Фестивали, турниры, показы фильмов - всё это и еще много разных мероприятий, проводит наш клуб.
+        </p>
+      </div>
+      <div class="justify-center items-start">
+        <h4 class="font-semibold text-lg">При поддержке</h4>
+        <a class="relative flex justify-center items-center overflow-hidden w-32 h-32" href="https://www.mirea.ru/">
+          <img src="/footer/Gerb.png" class="absolute scale-125" alt="Герб Вуза">
+        </a>
+        <a class="relative flex justify-center items-center overflow-hidden w-32 h-32" href="https://sumirea.ru/">
+          <img src="/footer/Stud.png" class="absolute scale-125" alt="Студенческий Союз">
+        </a>
+      </div>
+      <div>
+        <h4 class="font-semibold text-lg">Полезные ссылки</h4>
+        <div class="flex flex-col flex-1 justify-around py-6">
+          <Link href="https://vk.com/japanclubm">Мы во ВКонтакте</Link>
+          <Link href="https://vk.me/join/AJQ1d5keYRsaynaoS_Rf5fHe">Чат клуба во ВКонтакте</Link>
+          <Link href="https://jc.org.ru/ru/index">Японский центр</Link>
+          <Link href="https://vk.com/yatoisada">Президент клуба</Link>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-around items-center flex-wrap">
+      <p>© 2024 Copyright:  Клуб Японской Культуры</p>
+      <p>Код на <Link href="https://github.com/IMrProYTI/japan">Github</Link></p>
+      <p>Разработано: <Link href="https://poti.netlify.app/">POTI</Link></p>
+    </div>
   </footer>
 </template>
 
 <script setup lang="ts">
-
+import Link from './Link.vue';
 </script>
 
 <style scoped>

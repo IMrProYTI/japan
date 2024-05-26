@@ -1,11 +1,11 @@
 <template>
-	<footer class="flex flex-col p-2 pe-4 text-white bg-neutral-800">
+	<footer class="flex flex-col p-2 text-white bg-neutral-800">
     <hr class="hidden dark:block">
     <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4 *:flex *:flex-col justify-around items-stretch m-4">
       <div class="xl:col-start-2">
         <h4 class="font-semibold text-lg">О нас</h4>
         <p class="text-wrap w-3/4">
-          Клуб японской культуры ждет новых участников.
+          Клуб Японской Культуры ждет новых участников.
           Фестивали, турниры, показы фильмов - всё это и еще много разных мероприятий, проводит наш клуб.
         </p>
       </div>
@@ -20,9 +20,11 @@
       </div>
       <div>
         <h4 class="font-semibold text-lg">Полезные ссылки</h4>
-        <div class="flex flex-col flex-1 justify-around py-6">
+        <div class="flex flex-col flex-1 justify-around py-4">
           <Link href="https://vk.com/japanclubm">Мы во ВКонтакте</Link>
-          <Link href="https://vk.me/join/AJQ1d5keYRsaynaoS_Rf5fHe">Чат клуба во ВКонтакте</Link>
+          <Link href="https://t.me/japanclubmirea">Мы в Telegram</Link>
+          <Link href="https://www.youtube.com/@user-ot1vk5tc2i">Мы на YouTube</Link>
+          <Link href="https://discord.com/invite/whUKEvMjgy">Мы в Discord</Link>
           <Link href="https://jc.org.ru/ru/index">Японский центр</Link>
           <Link href="https://vk.com/yatoisada">Президент клуба</Link>
         </div>

@@ -11,7 +11,7 @@
 				<p>Авторизация</p>
 			</LinkButton> -->
 		</nav>
-		<div class="flex justify-center items-center px-2">
+		<div class="flex justify-center items-center pe-4">
 			<a href="https://vk.com/japanclubm">
 				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/logos/VK.svg" alt="VK">
 			</a>

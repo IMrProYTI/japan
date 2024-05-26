@@ -1,8 +1,8 @@
 <template>
-	<div class="grid gap-4 grid-cols-1 lg:grid-cols-2 *:flex *:flex-col *:justify-start *:items-center px-4">
+	<div class="grid gap-4 grid-cols-1 lg:grid-cols-2 *:flex *:flex-col *:justify-start *:items-center xl:px-16">
 		<div class="space-y-4">
 			<h4 class="font-semibold text-2xl">Актуальные фото</h4>
-			<p class="xl:w-3/4 text-center">Фотографии которые были сделаны относительно недавно, они показывают какой клуб на данный момент.</p>
+			<p class="xl:w-3/4 text-center">Фотографии, которые были сделаны относительно недавно. Они показывают, каков клуб на данный момент.</p>
 			<div class="gallery relative flex flex-col w-full aspect-[8/5] overflow-hidden overflow-x-auto">
 				<div class="flex justify-between flex-1">
 					<div @click="prevActualImage" class="flex justify-center items-center cursor-pointer z-10 px-4">
@@ -40,7 +40,7 @@
 
 		<div class="space-y-4">
 			<h4 class="font-semibold text-2xl">Архивные фото</h4>
-			<p class="xl:w-3/4 text-center">Фотографии которые были сделаны достаточно давно, но они не потеряли своей актуальности.</p>
+			<p class="xl:w-3/4 text-center">Фотографии, которые были сделаны достаточно давно, но не потеряли своей актуальности.</p>
 			<div class="gallery relative flex flex-col w-full aspect-[8/5] overflow-hidden overflow-x-auto">
 				<div class="flex justify-between flex-1">
 					<div @click="prevArchiveImage" class="flex justify-center items-center cursor-pointer z-10 px-4">

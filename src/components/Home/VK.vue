@@ -23,7 +23,7 @@ const data: Ref<{
 
 (async () => {
 	if (IS_LOAD) {
-		data.value = (await supabase.from('vk').select('owner_id,post_id,hash').order('post_id',{ ascending: false }).eq('show', 'true').limit(6)).data;
+		data.value = (await supabase.from('vk').select('owner_id,post_id,hash').order('post_id',{ ascending: false }).eq('show', 'true').limit(3)).data;
 
 		if (data && data.value) {
 			data.value.forEach((post) => {

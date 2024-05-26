@@ -6,7 +6,7 @@
         <div class="relative flex-1 justify-center items-center">
           <div class="absolute inset-0 bg-[url(/background.jpg)] bg-fixed bg-cover bg-center brightness-50" />
           <div class="absolute flex flex-col justify-center items-center inset-0 space-y-2 text-white">
-            <img class="max-w-full max-h-96 p-4" src="/Logo.png" alt="logo">
+            <img class="max-w-full max-h-96 p-4" src="/logo.png" alt="logo">
             <div class="flex flex-col justify-center items-center rounded-xl p-2 m-2 space-y-2">
               <h1 class="font-bold text-center text-4xl md:text-5xl lg:text-6xl m-2">Клуб Японской Культуры</h1>
               <hr class="w-full">
@@ -33,29 +33,29 @@
       <div class="flex flex-col justify-center items-center space-y-16 p-6">
         <div class="text-center space-y-4">
           <h2 class="font-semibold text-3xl">О нашем клубе</h2>
-          <p class="container max-w-2xl">
-            Мы - клуб РТУ МИРЭА, который смог собрать людей, которым интересна культура Японии.
-            Наши участники любят посещать самые разные мероприятия, некоторым нравится писать занимательные статьи о жизни в Японии, о быте японцев и о многом другом.
-            Другим приятно просто общаться в компании людей со схожими увлечениями.
+          <p class="container max-w-3xl">
+            Мы - клуб РТУ МИРЭА, который смог собрать людей, интересующихся культурой Японии.<br>
+            Наши участники любят посещать самые разные мероприятия, некоторым нравится писать занимательные статьи о жизни в Японии, о быте японцев и о многом другом.<br>
+            Другим приятно просто общаться в компании людей со схожими увлечениями.<br>
             А кому-то нравится своя определенная тематика.
-            Но всех нас объединяет любовь к Японии, стране, где есть самураи, странная еда и постройки,
+            Но всех нас объединяет любовь к Японии - стране, где есть самураи, странная еда и постройки,
             древние храмы, красивая природа, многовековые традиции, аниме и многое другое.
           </p>
         </div>
         <div class="grid gap-4 md:grid-cols-3 xl:px-16 space-y-4 md:space-y-0">
           <div class="text-center space-y-4">
             <h3 class="font-semibold text-2xl">Мероприятия</h3>
-            <p class="">Наш клуб участвует и проводит мероприятия университета, где мы расскажем и покажем все самое интересное о Японии.</p>
+            <p class="">Наш клуб участвует в мероприятиях, а также проводит их, мы расскажем и покажем все самое интересное о Японии.</p>
           </div>
 
           <div class="text-center space-y-4">
             <h3 class="font-semibold text-2xl">Атмосфера</h3>
-            <p>Приятная ламповая атмосфера в клубе, влюбит в себя абсолютно любого и никого не оставит равнодушным.</p>
+            <p>Приятная ламповая атмосфера в клубе влюбит в себя абсолютно любого и никого не оставит равнодушным.</p>
           </div>
 
           <div class="text-center space-y-4">
             <h3 class="font-semibold text-2xl">Обучение</h3>
-            <p>Сколько всего узнали наши участники за время существования клуба остается только предполагать.</p>
+            <p>Остается только предполагать, сколько всего узнали наши участники за время существования клуба.</p>
           </div>
         </div>
         <div class="grid gap-4 lg:grid-cols-3 xl:px-16">

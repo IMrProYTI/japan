@@ -6,7 +6,7 @@
         <h4 class="font-semibold text-lg">О нас</h4>
         <p class="text-wrap w-3/4">
           Клуб Японской Культуры ждет новых участников.
-          Фестивали, турниры, показы фильмов - всё это и еще много разных мероприятий, проводит наш клуб.
+          Фестивали, турниры, показы фильмов - всё это и еще много мероприятий, которые проводит наш клуб.
         </p>
       </div>
       <div class="justify-center items-start">
@@ -30,10 +30,12 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-around items-center flex-wrap">
+    <div class="grid gap-2 grid-cols-2 *:text-center">
       <p>© 2024 Copyright:  Клуб Японской Культуры</p>
-      <p>Код на <Link href="https://github.com/IMrProYTI/japan">Github</Link></p>
-      <p>Разработано: <Link href="https://poti.netlify.app/">POTI</Link></p>
+      <div class="flex justify-around flex-wrap *:text-center *:px-1">
+        <p>Разработано: <Link href="https://poti.netlify.app/">POTI</Link></p>
+        <p>Код на <Link href="https://github.com/IMrProYTI/japan">Github</Link></p>
+      </div>
     </div>
   </footer>
 </template>

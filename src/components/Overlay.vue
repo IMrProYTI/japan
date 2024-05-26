@@ -1,7 +1,7 @@
 <template>
   <div class="text-black h-screen overflow-hidden space-y-2 p-2">
     <h1 class="p-2 rounded-md text-lg text-center text-[#ccbd8f] bg-gradient-to-b from-[#4b5265] to-[#4b526599]">
-      {{ $route.params.player ? `🌸Задания: ${$route.params.player}🌸` : `🌸Все задания:🌸` }}
+      🌸Все задания:🌸
     </h1>
     <h2
       class="flex space-x-2 *:text-center *:rounded-md *:p-2 text-[#ccbd8f] *:bg-gradient-to-b *:from-[#4b5265] *:to-[#4b526599]"
@@ -13,13 +13,9 @@
       <transition-group name="task">
         <div
           v-for="task in tasks" :key="task.id"
-          v-show="
-            (
-              (task.user === 'ALL' || task.user === $route.params.player) ||
-              (participant && !participant.completed.includes(task.id))
-            ) && task.is_opened
-          "
-          class="flex justify-between items-center w-full p-2 rounded-md text-lg bg-gradient-to-b from-[#ebe6db] to-[#ebe6db99]"
+          v-show="(task.user === 'ALL' || task.user === $route.params.player) && task.is_opened"
+          class="flex justify-between items-center w-full p-2 rounded-md text-lg bg-gradient-to-b "
+          :class="task.completed === 0 ? 'from-[#ebe6db] to-[#ebe6db99]' : 'from-[#ebdbdb] to-[#ebdbdb99]'"
         >
 		  	  <h1 class="flex-1 truncate">{{ task.title }}</h1>
 		  	  <p>{{ task.reward }}</p>
@@ -33,11 +29,8 @@
 import { Ref, ref } from 'vue';
 import supabase from '../supabase';
 
-import router from '../router';
-const { params } = router.currentRoute.value;
-
-const data = (await supabase.from('tasks').select('id,title,reward,is_opened,user')).data;
-const dataParticipant = (await supabase.from('participant').select('id,nickname,uid,completed').eq('nickname', params.player)).data;
+const dataTasks = (await supabase.from('tasks').select('id,title,reward,is_opened,user')).data;
+const dataParticipants = (await supabase.from('participant').select('id,nickname,uid,completed')).data;
 
 const tasks: Ref<{
   id: number;
@@ -45,18 +38,15 @@ const tasks: Ref<{
   reward: number;
   is_opened: boolean;
   user: string;
-}[]> = ref(data === null ? [] : data.sort((a, b) => a.id - b.id));
+  completed?: number;
+}[]> = ref(dataTasks === null ? [] : dataTasks.sort((a, b) => a.id - b.id));
 
-const participant: Ref<{
+const participants: Ref<{
   id: number;
   nickname: string;
 	uid: string;
 	completed: number[];
-} | null> = ref(dataParticipant === null ? null : dataParticipant[0]);
-
-function handleParticipantUpdate(payload: any) {
-	participant.value = payload.new;
-};
+}[]> = ref(dataParticipants === null ? [] : dataParticipants.sort((a, b) => a.id - b.id));
 
 function handleInsert(payload: any, refArray: Ref<any[]>): void {
 	refArray.value.push(payload.new);
@@ -73,9 +63,23 @@ function handleDelete(payload: any, refArray: Ref<any[]>): void {
 	refArray.value = refArray.value.filter(check);
 };
 
+function calcCompleted(taskId: number): number {
+	let completed: number = 0;
+	for (let i = 0; i < participants.value.length; i++) {
+		if (participants.value[i].completed.includes(taskId)) completed += 1;
+	};
+	return completed;
+};
+
+function calcParticipants(): void {
+  for (let i = 0; i < tasks.value.length; i++)
+    tasks.value[i].completed = calcCompleted(tasks.value[i].id);
+};
+calcParticipants();
+
 supabase
   .channel('custom-all-channel')
-  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant' }, handleParticipantUpdate)
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant' }, (payload) => { handleUpdate(payload, participants); calcParticipants(); })
   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasks' }, (payload) => { handleInsert(payload, tasks) })
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasks' }, (payload) => { handleUpdate(payload, tasks) })
   .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, (payload) => { handleDelete(payload, tasks) })

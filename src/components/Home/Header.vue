@@ -11,18 +11,18 @@
 				<p>Авторизация</p>
 			</LinkButton> -->
 		</nav>
-		<div class="flex justify-center items-center px-2">
+		<div class="flex justify-center items-center pe-4">
 			<a href="https://vk.com/japanclubm">
-				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/VK-Logo.svg" alt="VK">
+				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/logos/VK.svg" alt="VK">
 			</a>
 			<a href="https://t.me/japanclubmirea">
-				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/Telegram-Logo.svg" alt="Telegram">
+				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/logos/Telegram.svg" alt="Telegram">
 			</a>
 			<a href="https://www.youtube.com/@user-ot1vk5tc2i">
-				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/Youtube-Logo.svg" alt="Youtube">
+				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/logos/Youtube.svg" alt="Youtube">
 			</a>
 			<a href="https://discord.com/invite/whUKEvMjgy">
-				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/Discord-Logo.svg" alt="Discord">
+				<img class="w-8 h-8 p-1 hover:p-0.5 linkHover" src="/logos/Discord.svg" alt="Discord">
 			</a>
 			
 		</div>

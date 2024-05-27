@@ -24,7 +24,6 @@
 						v-show="el === actualIndex"
 						:class="getActualtyle(el)"
 						:src="`/gallery/actual/${el}.jpg`"
-						loading="lazy"
 					>
 				</TransitionGroup>
 				<div class="flex justify-center items-center z-10 p-2 space-x-2">
@@ -61,7 +60,6 @@
 						v-show="el === archiveIndex"
 						:class="getArchiveStyle(el)"
 						:src="`/gallery/archive/${el}.jpg`"
-						loading="lazy"
 					>
 				</TransitionGroup>
 				<div class="flex justify-center items-center z-10 p-2 space-x-2">

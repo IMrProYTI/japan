@@ -23,11 +23,11 @@ const data: Ref<{
 
 (async () => {
 	if (IS_LOAD) {
-		data.value = (await supabase.from('vk').select('owner_id,post_id,hash').order('post_id',{ ascending: false }).eq('show', 'true').limit(3)).data;
+		data.value = (await supabase.from('vk').select('owner_id,post_id,hash').order('post_id', { ascending: false }).eq('show', 'true').limit(3)).data;
 
 		if (data && data.value) {
 			data.value.forEach((post) => {
-				const width = window.innerWidth > 500 - 32 ? 500 : window.innerWidth - 32;
+				const width = window.innerWidth > 500 + 32 ? 500 : window.innerWidth - 32;
 				// @ts-ignore
   			VK.Widgets.Post(`vk_post_${post.owner_id}_${post.post_id}`, post.owner_id, post.post_id, post.hash, { width });
 			});

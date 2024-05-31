@@ -20,9 +20,9 @@
 			"
 		>
 			<tr
+			v-for="task in tasks" :key="task.id"
 				class="*:*:flex *:*:items-center *:*:p-0.5"
-				v-for="task in tasks"
-				:key="task.id"
+				:class="calcCompleted(task.id) !== 0 && task.is_opened ? '*:bg-red-700/25' : ''"
 			>
 				<td>
 					<p class="justify-center">{{ task.id }}</p>

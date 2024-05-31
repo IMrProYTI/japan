@@ -1,7 +1,7 @@
 <template>
 	<table
 		v-if="tasks !== null && participant" 
-		class="w-max rounded table-auto text-xs sm:text-sm text-white bg-blue-600 dark:bg-slate-900"
+		class="w-max rounded table-auto text-xs sm:text-sm m-auto text-white bg-blue-600 dark:bg-slate-900"
 	>
 		<thead>
 			<tr class="*:px-1 *:md:px-2 *:py-1">

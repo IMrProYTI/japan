@@ -15,7 +15,7 @@
           v-for="task in tasks" :key="task.id"
           v-show="(task.user === 'ALL' || task.user === $route.params.player) && task.is_opened"
           class="flex justify-between items-center w-full p-2 rounded-md text-lg bg-gradient-to-b "
-          :class="task.completed === 0 ? 'from-[#ebe6db] to-[#ebe6db99]' : 'from-[#ebdbdb] to-[#ebdbdb99]'"
+          :class="tasksCompleted[task.id] === 0 ? 'from-[#ebe6db] to-[#ebe6db99]' : 'from-[#ebdbdb] to-[#ebdbdb99]'"
         >
 		  	  <h1 class="flex-1 truncate">{{ task.title }}</h1>
 		  	  <p>{{ task.reward }}</p>
@@ -38,8 +38,11 @@ const tasks: Ref<{
   reward: number;
   is_opened: boolean;
   user: string;
-  completed?: number;
 }[]> = ref(dataTasks === null ? [] : dataTasks.sort((a, b) => a.id - b.id));
+
+const tasksCompleted: Ref<{
+  [id: number]: number
+}> = ref({});
 
 const participants: Ref<{
   id: number;
@@ -73,7 +76,7 @@ function calcCompleted(taskId: number): number {
 
 function calcParticipants(): void {
   for (let i = 0; i < tasks.value.length; i++)
-    tasks.value[i].completed = calcCompleted(tasks.value[i].id);
+    tasksCompleted.value[tasks.value[i].id] = calcCompleted(tasks.value[i].id);
 };
 calcParticipants();
 

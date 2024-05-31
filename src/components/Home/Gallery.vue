@@ -5,12 +5,12 @@
 			<p class="xl:w-3/4 text-center">Фотографии, которые были сделаны относительно недавно. Они показывают, каков клуб на данный момент.</p>
 			<div class="gallery relative flex flex-col w-full aspect-[8/5] overflow-hidden overflow-x-auto">
 				<div class="flex justify-between flex-1">
-					<div @click="prevActualImage" class="flex justify-center items-center cursor-pointer z-10 px-4">
+					<div @click="prevActualImage" class="flex flex-1 justify-start items-center cursor-pointer z-10 ps-4">
 						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_left</span>
 						</button>
 					</div>
-					<div @click="nextActualImage" class="flex justify-center items-center cursor-pointer z-10 px-4">
+					<div @click="nextActualImage" class="flex flex-1 justify-end items-center cursor-pointer z-10 pe-4">
 						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_right</span>
 						</button>
@@ -42,12 +42,12 @@
 			<p class="xl:w-3/4 text-center">Фотографии, которые были сделаны достаточно давно, но не потеряли своей актуальности.</p>
 			<div class="gallery relative flex flex-col w-full aspect-[8/5] overflow-hidden overflow-x-auto">
 				<div class="flex justify-between flex-1">
-					<div @click="prevArchiveImage" class="flex justify-center items-center cursor-pointer z-10 px-4">
+					<div @click="prevArchiveImage" class="flex flex-1 justify-start items-center cursor-pointer z-10 ps-4">
 						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_left</span>
 						</button>
 					</div>
-					<div @click="nextArchiveImage" class="flex justify-center items-center cursor-pointer z-10 px-4">
+					<div @click="nextArchiveImage" class="flex flex-1 justify-end items-center cursor-pointer z-10 pe-4">
 						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_right</span>
 						</button>

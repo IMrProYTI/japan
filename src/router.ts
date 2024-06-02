@@ -1,23 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { checkAuth } from './supabase';
 
-import updateTitle from './updateTitle';
-
-import Home from './views/Home.vue';
 
 import Admin from './views/Admin.vue';
 import AdminTasks from './components/Admin/Tasks.vue';
 import AdminJudge from './components/Admin/Judge.vue';
 import AdminParticipant from './components/Admin/Participant.vue';
 
+import ErrorPage from './views/ErrorPage.vue';
+
+import Home from './views/Home.vue';
+
 import Judge from './views/Judge.vue';
+
+import Leaderboard from './views/Leaderboard.vue';
 
 import Login from './views/Login.vue';
 
 import Overlay from './views/Overlay.vue';
-// import OverlayPlayer from './views/OverlayPlayer.vue';
 
-import Leaderboard from './views/Leaderboard.vue';
+
+import updateTitle from './updateTitle';
+
 
 const DEBUG: boolean = false;
 
@@ -75,23 +79,21 @@ const routes = [
 		meta: { requiresAuth: false }
 	},
 	{
-		name: "Оверлэй",
-		path: '/overlay',
-		component: Overlay,
-		meta: { requiresAuth: false },
-		children: [
-			{
-				name: "Оверлэй участника",
-				path: ':player',
-				component: Overlay,
-				meta: { requiresAuth: false }
-			}
-		]
-	},
-	{
 		name: "Лидерборд",
 		path: '/leaderboard',
 		component: Leaderboard,
+		meta: { requiresAuth: false }
+	},
+	{
+		name: "Оверлэй",
+		path: '/overlay',
+		component: Overlay,
+		meta: { requiresAuth: false }
+	},
+	{
+	  name: 'Страница не найдена',
+	  path: '/:catchAll(.*)',
+	  component: ErrorPage,
 		meta: { requiresAuth: false }
 	}
 ];

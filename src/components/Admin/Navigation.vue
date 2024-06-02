@@ -30,6 +30,7 @@
 
 <script setup lang="ts">
 import supabase from '../../supabase';
+import router from '../../router';
 
 import Mode from '../root/Mode.vue';
 import LinkButton from '../root/LinkButton.vue';
@@ -37,7 +38,7 @@ import DangerButton from '../root/DangerButton.vue';
 
 async function SignOut() {
   const { error } = await supabase.auth.signOut();
-  if (!error?.message) window.location.reload();
+  if (!error?.message) router.push('/');
 };
 </script>
 

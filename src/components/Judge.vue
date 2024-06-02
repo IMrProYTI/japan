@@ -1,9 +1,13 @@
 <template>
   <div class="w-screen min-h-screen dark:text-white dark:bg-slate-950">
     <div v-if="$route.params.player" class="flex flex-col justify-center items-center">
-      <div class="*:text-xl *:text-center p-2">
-        <h1>Задания: {{ $route.params.player }}</h1>
-        <Timer />
+      <div class="flex justify-between w-full p-2">
+        <div class="w-10" />
+        <div class="*:text-xl *:text-center">
+          <h1>Задания: {{ $route.params.player }}</h1>
+          <Timer />
+        </div>
+        <Mode class="" />
       </div>
       <Tasks />
     </div>
@@ -13,6 +17,7 @@
 <script setup lang="ts">
 import Tasks from './Judge/Tasks.vue';
 import Timer from './root/Timer.vue';
+import Mode from './root/Mode.vue';
 </script>
 
 <style scoped>

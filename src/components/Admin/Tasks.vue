@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col p-2 space-y-8">
-    <div class="flex flex-col items-start w-fit space-y-2">
+  <div class="flex flex-col p-2 space-y-4">
+    <div class="flex flex-col items-start w-full overflow-x-scroll space-y-2">
       <div class="flex justify-center items-center space-x-2">
         <p class="h-fit">Добаивть задание:</p>
         <select
@@ -49,8 +49,8 @@
       </div>
       <p v-if="errorMessage" class="font-bold text-red-700">{{ errorMessage }}</p>
     </div>
-    <div class="flex flex-col justify-center items-center w-fit max-w-full space-y-2">
-      <Timer class="font-semibold text-xl" />
+    <Timer class="font-semibold text-xl" />
+    <div class="w-full overflow-x-scroll rounded">
       <Suspense>
         <TasksTable />
 

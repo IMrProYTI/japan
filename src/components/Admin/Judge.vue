@@ -21,13 +21,15 @@
       </div>
       <ApproveButton @click="addJudge">Добавить</ApproveButton>
     </div>
-    <Suspense>
-      <JudgeTable />
-          
-      <template #fallback>
-        <Loading class="min-h-16" />
-      </template>
-    </Suspense>
+    <div class="w-full overflow-x-scroll rounded">
+      <Suspense>
+        <JudgeTable />
+            
+        <template #fallback>
+          <Loading class="min-h-16" />
+        </template>
+      </Suspense>
+    </div>
   </div>
 </template>
 

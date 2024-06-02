@@ -22,13 +22,15 @@
       <ApproveButton @click="createParticipant()">Добавить</ApproveButton>
       <p v-if="errorMessage" class="font-bold text-red-700">{{ errorMessage }}</p>
     </div>
-    <Suspense>
-      <ParticipantTable />
-          
-      <template #fallback>
-        <Loading class="min-h-16" />
-      </template>
-    </Suspense>
+    <div class="w-full overflow-x-scroll rounded">
+      <Suspense>
+        <ParticipantTable />
+
+        <template #fallback>
+          <Loading class="min-h-16" />
+        </template>
+      </Suspense>
+    </div>
   </div>
 </template>
 

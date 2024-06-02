@@ -19,6 +19,8 @@ import Login from './views/Login.vue';
 
 import Overlay from './views/Overlay.vue';
 
+import QRCode from './views/QRCode.vue';
+
 
 import updateTitle from './updateTitle';
 
@@ -88,6 +90,12 @@ const routes = [
 		name: "Оверлэй",
 		path: '/overlay',
 		component: Overlay,
+		meta: { requiresAuth: false }
+	},
+	{
+	  name: 'QR Код',
+	  path: '/qrcode/:participant/:key',
+	  component: QRCode,
 		meta: { requiresAuth: false }
 	},
 	{

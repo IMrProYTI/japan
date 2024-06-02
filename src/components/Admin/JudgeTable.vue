@@ -31,7 +31,7 @@
 					<p>{{ getParticipant(judge.participant)?.nickname }}</p>
 				</td>
 				<td>
-					<div class="justify-center">
+					<div class="justify-center *:m-0.5">
 						<a
 							class="
 								flex justify-center items-center
@@ -43,6 +43,18 @@
 							target="_blank"
 						>
 							<span class="material-symbols">open_in_new</span>
+						</a>
+						<a
+							class="
+								flex justify-center items-center
+								px-2 py-1 rounded-md border-2 border-transparent text-black dark:text-white
+								hover:border-neutral-400 bg-neutral-300 active:bg-neutral-400
+								dark:bg-slate-700 dark:hover:border-slate-600 dark:active:bg-slate-600
+							"
+							:href="`/qrcode/${getParticipant(judge.participant)?.nickname}/${judge.key}`"
+							target="_blank"
+						>
+							<span class="material-symbols">qr_code_2</span>
 						</a>
 					</div>
 				</td>
@@ -74,6 +86,7 @@
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
+import CommonButton from '../root/CommonButton.vue';
 import SemiDangerButton from '../root/SemiDangerButton.vue';
 import DangerButton from '../root/DangerButton.vue';
 

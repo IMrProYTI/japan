@@ -96,7 +96,7 @@ const routes = [
 	  name: 'QR Код',
 	  path: '/qrcode/:participant/:key',
 	  component: QRCode,
-		meta: { requiresAuth: false }
+		meta: { requiresAuth: true }
 	},
 	{
 	  name: 'Страница не найдена',

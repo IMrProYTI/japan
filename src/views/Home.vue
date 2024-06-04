@@ -15,10 +15,10 @@
               </p>
             </div>
           </div>
-          <!-- <div class="absolute flex justify-center items-end bottom-0 w-full h-[calc(100%/10)] bg-gradient-to-t from-white dark:from-neutral-800">
-            <span class="material-symbols m-2">expand_more</span>
-          </div> -->
-          <div class="absolute bottom-0 right-0 invisible 2xl:visible scale-75">
+          <div class="absolute flex justify-center items-end bottom-0 w-full">
+            <span class="material-symbols animate-bounce text-white m-2">expand_more</span>
+          </div>
+          <!-- <div class="absolute bottom-0 right-0 invisible 2xl:visible scale-75">
             <iframe
               src="https://discord.com/widget?id=1166086254396461066"
               width="350" height="500"
@@ -27,7 +27,7 @@
               class="absolute bottom-5 right-10"
             >
             </iframe>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="flex flex-col justify-center items-center space-y-16 p-6">

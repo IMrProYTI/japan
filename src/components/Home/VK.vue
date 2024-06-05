@@ -13,7 +13,10 @@
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
+import VKenable from '../../VK';
+
 const IS_LOAD = true;
+if (IS_LOAD) VKenable();
 
 const data: Ref<{
   owner_id: number;
@@ -38,4 +41,4 @@ const data: Ref<{
 
 <style scoped>
 
-</style>
+</style>../../VKapi../../VK

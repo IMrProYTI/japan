@@ -25,7 +25,7 @@ const data: Ref<{
 
 onMounted(async () => {
 	if (IS_LOAD) {
-		VKenable();
+		await VKenable();
 		data.value = (await supabase.from('vk').select('owner_id,post_id,hash').order('post_id', { ascending: false }).eq('show', 'true').limit(3)).data;
 
 		if (data && data.value) {

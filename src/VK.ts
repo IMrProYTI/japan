@@ -4,9 +4,10 @@ const VKScript = document.createElement('script');
 VKScript.setAttribute('type', "text/javascript");
 VKScript.setAttribute('src', VKScriptLink);
 
-function VKenable(): void {
+async function VKenable(): Promise<void> {
 	const head = document.getElementsByTagName('head')[0];
 	if (!checkVKScript(head)) head.append(VKScript);
+	VKScript.addEventListener('load', () => { return; } );
 };
 
 function checkVKScript(head: HTMLHeadElement): boolean {

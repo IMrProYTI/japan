@@ -6,8 +6,14 @@ VKScript.setAttribute('src', VKScriptLink);
 
 async function VKenable(): Promise<void> {
 	const head = document.getElementsByTagName('head')[0];
+
+	const promise: Promise<void> = new Promise((resolve) => {
+		VKScript.addEventListener('loadeddata', () => { resolve() } );
+	});
+
 	if (!checkVKScript(head)) head.append(VKScript);
-	VKScript.addEventListener('load', () => { return; } );
+	
+	return await promise;
 };
 
 function checkVKScript(head: HTMLHeadElement): boolean {

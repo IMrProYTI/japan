@@ -10,13 +10,12 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
 import VKenable from '../../VK';
 
 const IS_LOAD = true;
-if (IS_LOAD) VKenable();
 
 const data: Ref<{
   owner_id: number;
@@ -24,8 +23,9 @@ const data: Ref<{
   hash: string;
 }[] | null> = ref(null);
 
-(async () => {
+onMounted(async () => {
 	if (IS_LOAD) {
+		VKenable();
 		data.value = (await supabase.from('vk').select('owner_id,post_id,hash').order('post_id', { ascending: false }).eq('show', 'true').limit(3)).data;
 
 		if (data && data.value) {
@@ -36,7 +36,7 @@ const data: Ref<{
 			});
 		};
 	};
-})();
+});
 </script>
 
 <style scoped>

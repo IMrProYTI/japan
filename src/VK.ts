@@ -3,17 +3,21 @@ const VKScriptLink: string = "https://vk.com/js/api/openapi.js";
 const VKScript = document.createElement('script');
 VKScript.setAttribute('type', "text/javascript");
 VKScript.setAttribute('src', VKScriptLink);
+VKScript.classList.add('vk-script');
 
 async function VKenable(): Promise<void> {
 	const head = document.getElementsByTagName('head')[0];
 
-	const promise: Promise<void> = new Promise((resolve) => {
-		VKScript.addEventListener('loadeddata', () => { resolve() } );
-	});
-
 	if (!checkVKScript(head)) head.append(VKScript);
-	
-	return await promise;
+
+	const VKScriptHTML =  head.getElementsByClassName('vk-script')[0];
+
+	return await new Promise((resolve) => {
+		VKScriptHTML.addEventListener('load', () => { 
+				resolve();
+			}
+		);
+	});
 };
 
 function checkVKScript(head: HTMLHeadElement): boolean {

@@ -9,6 +9,7 @@ async function VKenable(): Promise<void> {
 	const head = document.getElementsByTagName('head')[0];
 
 	if (!checkVKScript(head)) head.append(VKScript);
+	else return;
 
 	const VKScriptHTML =  head.getElementsByClassName('vk-script')[0];
 

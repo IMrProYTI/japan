@@ -22,7 +22,7 @@
       <ApproveButton @click="createParticipant()">Добавить</ApproveButton>
       <p v-if="errorMessage" class="font-bold text-red-700">{{ errorMessage }}</p>
     </div>
-    <div class="w-full overflow-x-scroll rounded">
+    <div class="w-full overflow-x-auto rounded">
       <Suspense>
         <ParticipantTable />
 

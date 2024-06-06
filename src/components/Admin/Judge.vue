@@ -21,7 +21,7 @@
       </div>
       <ApproveButton @click="addJudge">Добавить</ApproveButton>
     </div>
-    <div class="w-full overflow-x-scroll rounded">
+    <div class="w-full overflow-x-auto rounded">
       <Suspense>
         <JudgeTable />
             

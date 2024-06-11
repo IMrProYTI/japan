@@ -16,7 +16,10 @@
 		    		class="flex justify-between items-center w-full p-2 rounded-md text-lg bg-gradient-to-b from-[#ebe6db] to-[#ebe6db99]"
           >
 		    		<h1 class="truncate">{{ participant.nickname }}</h1>
-		    		<p>{{ participant.points }}</p>
+            <div class="flex">
+              <p>{{ participant.points }}</p>
+              <img class="w-7" src="/genshin/dice.png">
+            </div>
 		    	</div>
         </div>
       </transition-group>

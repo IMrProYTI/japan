@@ -1,32 +1,54 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { checkAuth } from './supabase';
 
-import updateTitle from './updateTitle';
-
-import Home from './views/Home.vue';
 
 import Admin from './views/Admin.vue';
 import AdminTasks from './components/Admin/Tasks.vue';
 import AdminJudge from './components/Admin/Judge.vue';
 import AdminParticipant from './components/Admin/Participant.vue';
 
+import ErrorPage from './views/ErrorPage.vue';
+
+import Home from './views/Home.vue';
+import Root from './views/Home/Root.vue';
+import Posts from './views/Home/Posts.vue';
+
 import Judge from './views/Judge.vue';
+
+import Leaderboard from './views/Leaderboard.vue';
 
 import Login from './views/Login.vue';
 
 import Overlay from './views/Overlay.vue';
-// import OverlayPlayer from './views/OverlayPlayer.vue';
 
-import Leaderboard from './views/Leaderboard.vue';
+import QRCode from './views/QRCode.vue';
 
-const DEBUG: boolean = false;
+
+import updateTitle from './updateTitle';
+
+
+const DEBUG: boolean = true;
 
 const routes = [
 	{
-		name: "Главная",
+		name: "root",
 		path: '/',
 		component: Home,
-		meta: { requiresAuth: false }
+		meta: { requiresAuth: false },
+		children: [
+			{
+				name: "Главная",
+				path: '',
+				component: Root,
+				meta: { requiresAuth: false }
+			},
+			{
+				name: "Посты ВК",
+				path: 'posts',
+				component: Posts,
+				meta: { requiresAuth: false }
+			}
+		]
 	},
 	{
 		name: "Админ Панель",
@@ -75,23 +97,27 @@ const routes = [
 		meta: { requiresAuth: false }
 	},
 	{
-		name: "Оверлэй",
-		path: '/overlay',
-		component: Overlay,
-		meta: { requiresAuth: false },
-		children: [
-			{
-				name: "Оверлэй участника",
-				path: ':player',
-				component: Overlay,
-				meta: { requiresAuth: false }
-			}
-		]
-	},
-	{
 		name: "Лидерборд",
 		path: '/leaderboard',
 		component: Leaderboard,
+		meta: { requiresAuth: false }
+	},
+	{
+		name: "Оверлэй",
+		path: '/overlay',
+		component: Overlay,
+		meta: { requiresAuth: false }
+	},
+	{
+	  name: 'QR Код',
+	  path: '/qrcode/:participant/:key',
+	  component: QRCode,
+		meta: { requiresAuth: true }
+	},
+	{
+	  name: 'Страница не найдена',
+	  path: '/:catchAll(.*)',
+	  component: ErrorPage,
 		meta: { requiresAuth: false }
 	}
 ];

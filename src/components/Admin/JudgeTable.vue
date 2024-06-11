@@ -31,29 +31,31 @@
 					<p>{{ getParticipant(judge.participant)?.nickname }}</p>
 				</td>
 				<td>
-					<div class="justify-center">
-						<a
-							class="
-								flex justify-center items-center
-								px-2 py-1 rounded-md border-2 border-transparent text-black dark:text-white
-								hover:border-neutral-400 bg-neutral-300 active:bg-neutral-400
-								dark:bg-slate-700 dark:hover:border-slate-600 dark:active:bg-slate-600
-							"
-							:href="`/judge/${getParticipant(judge.participant)?.nickname}?key=${judge.key}`"
-							target="_blank"
+					<div class="justify-center *:m-0.5">
+						<Common
+							class="p-1"
+							c-type="external"
+							:to="`/judge/${getParticipant(judge.participant)?.nickname}?key=${judge.key}`"
 						>
 							<span class="material-symbols">open_in_new</span>
-						</a>
+						</Common>
+						<Common
+							class="p-1"
+							c-type="external"
+							:to="`/qrcode/${getParticipant(judge.participant)?.nickname}/${judge.key}`"
+						>
+							<span class="material-symbols">qr_code_2</span>
+						</Common>
 					</div>
 				</td>
 				<td>
 					<div class="justify-center *:m-0.5">
-						<SemiDangerButton class="flex justify-center items-center" @click="updateJudge(judge.id)">
+						<SemiDanger class="p-1" @click="updateJudge(judge.id)">
 							<span class="material-symbols">device_reset</span>
-						</SemiDangerButton>
-						<DangerButton class="flex justify-center items-center" @click="deleteJudge(judge.id)">
+						</SemiDanger>
+						<Danger class="p-1" @click="deleteJudge(judge.id)">
 							<span class="material-symbols">delete</span>
-						</DangerButton>
+						</Danger>
 					</div>
 				</td>
 			</tr>
@@ -74,8 +76,9 @@
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
-import SemiDangerButton from '../root/SemiDangerButton.vue';
-import DangerButton from '../root/DangerButton.vue';
+import Common from '../root/Common.vue';
+import SemiDanger from '../root/SemiDanger.vue';
+import Danger from '../root/Danger.vue';
 
 const dataJudges = (await supabase.from('judge').select('id,judge,participant,key')).data;
 const dataParticipants = (await supabase.from('participant').select('id,nickname')).data;

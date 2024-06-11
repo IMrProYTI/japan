@@ -5,7 +5,7 @@
         <p class="h-fit">Добавить:</p>
         <input
           class="rounded flex-1 p-1 bg-neutral-100 dark:bg-slate-900"
-          v-model="participant"
+          v-model="form.participant"
           placeholder="Имя участника"
           type="text"
         >
@@ -14,21 +14,23 @@
         <p class="h-fit">Идентификатор:</p>
         <input
           class="rounded flex-1 p-1 bg-neutral-100 dark:bg-slate-900"
-          v-model="uid"
+          v-model="form.uid"
           placeholder="UID"
           type="text"
         >
       </div>
-      <ApproveButton @click="createParticipant()">Добавить</ApproveButton>
+      <Approve class="px-2 py-1 w-full" @click="createParticipant()">Добавить</Approve>
       <p v-if="errorMessage" class="font-bold text-red-700">{{ errorMessage }}</p>
     </div>
-    <Suspense>
-      <ParticipantTable />
-          
-      <template #fallback>
-        <Loading class="min-h-16" />
-      </template>
-    </Suspense>
+    <div class="w-full overflow-x-auto rounded">
+      <Suspense>
+        <ParticipantTable />
+
+        <template #fallback>
+          <Loading class="min-h-16" />
+        </template>
+      </Suspense>
+    </div>
   </div>
 </template>
 
@@ -38,26 +40,32 @@ import supabase from '../../supabase';
 
 import Loading from '../root/Loading.vue';
 import ParticipantTable from './ParticipantTable.vue';
-import ApproveButton from '../root/ApproveButton.vue';
+import Approve from '../root/Approve.vue';
 
-const participant: Ref<string> = ref("");
-const uid: Ref<string> = ref("");
+const form: Ref<{
+  participant: string;
+  uid: string;
+}> = ref({
+  participant: "",
+  uid: ""
+});
 
 const errorMessage: Ref<string | undefined> = ref("");
 
 async function createParticipant() {
-  if (participant.value === '') {
+  if (form.value.participant === '') {
     errorMessage.value = "Имя пользователя не должно быть пустым";
     return;
   };
 
 	const { error } = await supabase.from('participant').insert({
-		nickname: participant.value,
-		uid: uid.value,
+		nickname: form.value.participant,
+		uid: form.value.uid,
     completed: []
 	}).select();
 
-  participant.value = '';
+  form.value.participant = '';
+  form.value.uid = '';
 
   errorMessage.value = error?.message;
 };

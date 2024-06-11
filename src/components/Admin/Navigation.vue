@@ -1,43 +1,45 @@
 <template>
   <nav class="flex justify-between items-center p-2">
-    <div class="flex space-x-2">
-      <LinkButton to="/">Главная</LinkButton>
-      <LinkButton to="/admin/tasks">Задания</LinkButton>
-      <LinkButton to="/admin/judge">Судьи</LinkButton>
-      <LinkButton to="/admin/participant">Участники</LinkButton>
-      <div />
-      <a 
-        class="px-2 py-1 rounded-md border-2 border-transparent text-white hover:border-blue-700 bg-blue-600 active:bg-blue-700"
-        href="/leaderboard"
-        target="_blank"
-      >
-        Таблица лидеров
-      </a>
-      <a
-        class="px-2 py-1 rounded-md border-2 border-transparent text-white hover:border-blue-700 bg-blue-600 active:bg-blue-700"
-        href="/overlay"
-        target="_blank"
-      >
-        Таблица заданий
-      </a>
+    <div class="flex flex-wrap">
+      <div class="flex *:m-1 me-2">
+        <Link class="flex justify-center items-center p-1" c-type="router" to="/">
+          <span class="material-symbols">home</span>
+        </Link>
+        <Link class="px-2 py-1" c-type="router" to="/admin/tasks">Задания</Link>
+        <Link class="px-2 py-1" c-type="router" to="/admin/judge">Судьи</Link>
+        <Link class="px-2 py-1" c-type="router" to="/admin/participant">Участники</Link>
+      </div>
+      <div class="flex *:m-1 *:px-2 *:py-1">
+        <Link c-type="external" to="/leaderboard">
+          Лидеры
+		      <span class="material-symbols-nosize">open_in_new</span>
+        </Link>
+        <Link c-type="external" to="/overlay">
+          Задания
+		      <span class="material-symbols-nosize">open_in_new</span>
+        </Link>
+      </div>
     </div>
     <div class="flex">
       <Mode />
-      <DangerButton @click="SignOut">Выйти из аккаунта</DangerButton>
+      <Danger class="p-1" @click="SignOut">
+        <span class="material-symbols">logout</span>
+      </Danger>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
 import supabase from '../../supabase';
+import router from '../../router';
 
 import Mode from '../root/Mode.vue';
-import LinkButton from '../root/LinkButton.vue';
-import DangerButton from '../root/DangerButton.vue';
+import Link from '../root/Link.vue';
+import Danger from '../root/Danger.vue';
 
 async function SignOut() {
   const { error } = await supabase.auth.signOut();
-  if (!error?.message) window.location.reload();
+  if (!error?.message) router.push('/');
 };
 </script>
 

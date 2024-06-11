@@ -35,9 +35,9 @@
 				</td>
 				<td>
 					<div class="justify-center">
-						<DangerButton class="flex justify-center items-center px-0.5 py-0.5" @click="deleteParticipant(participant.id)">
+						<Danger class="p-1" @click="deleteParticipant(participant.id)">
 							<span class="material-symbols">delete</span>
-						</DangerButton>
+						</Danger>
 					</div>
 				</td>
 			</tr>
@@ -59,7 +59,7 @@
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
-import DangerButton from '../root/DangerButton.vue';
+import Danger from '../root/Danger.vue';
 
 const dataParticipants = (await supabase.from('participant').select('id,uid,nickname,completed')).data;
 const dataTasks = (await supabase.from('tasks').select('id,reward')).data;

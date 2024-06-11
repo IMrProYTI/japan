@@ -5,10 +5,10 @@
 	>
 		<thead>
 			<tr class="*:px-1 *:md:px-2 *:py-1">
-				<th>Название</th>
-				<th>Описание</th>
-				<th>Статус задания</th>
-				<th v-if="query.key">Действия</th>
+				<th v-if="filter?.title">Название</th>
+				<th v-if="filter?.description">Описание</th>
+				<th v-if="filter?.status">Статус задания</th>
+				<th v-if="filter?.actions && query.key">Действия</th>
 			</tr>
 		</thead>
 		<tbody
@@ -24,61 +24,60 @@
 				v-for="task in tasks" 
 				:key="task.id" 
 			>
-				<td class="ps-1">
+				<td v-if="filter?.title" class="ps-1">
 					<p>{{ task.title }}</p>
 				</td>
-				<td>
+				<td v-if="filter?.description">
 					<p>{{ task.description }}</p>
 				</td>
-				<td>
+				<td v-if="filter?.status">
 					<div class="justify-center">
 						<p>{{ participant.completed.includes(task.id) ? 'Выполнено' : 'Не выполнено' }}</p>
 						<span v-if="participant.completed.includes(task.id)" class="material-symbols text-green-600">check</span>
 						<span v-else class="material-symbols text-red-600">close</span>
 					</div>
 				</td>
-				<td v-if="query.key">
+				<td v-if="filter?.actions && query.key">
 					<div class="justify-center *:mx-0.5">
-						<DangerButton
-							class="flex items-center w-full space-x-1"
-							v-if="participant.completed.includes(task.id)"
-							@click="cancelTask(task.id)"
-						>
+						<Danger class="px-1 py-0.5 space-x-1" v-if="participant.completed.includes(task.id)" @click="cancelTask(task.id)">
 							<p class="flex-1">Отменить</p>
 							<span class="material-symbols">cancel</span>
-						</DangerButton>
-						<ApproveButton
-							class="flex items-center w-full space-x-1"
-							v-else
-							@click="completeTask(task.id)"
-						>
+						</Danger>
+						<Approve class="px-1 py-0.5 space-x-1" v-else @click="completeTask(task.id)">
 							<p class="flex-1">Зачесть</p>
 							<span class="material-symbols">check_circle</span>
-						</ApproveButton>
+						</Approve>
 					</div>
 				</td>
 			</tr>
 		</tbody>
 		<tfoot>
 			<tr class="*:px-2 *:py-1 invisible">
-				<th>Название</th>
-				<th>Описание</th>
-				<th>Статус задания</th>
-				<th v-if="query.key">Действия</th>
+				<th v-if="filter?.title">Название</th>
+				<th v-if="filter?.description">Описание</th>
+				<th v-if="filter?.status">Статус задания</th>
+				<th v-if="filter?.actions && query.key">Действия</th>
 			</tr>
 		</tfoot>
 	</table>
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
+import { inject, Ref, ref } from 'vue';
 import supabase from '../../supabase';
 import router from '../../router';
 
 const { params, query } = router.currentRoute.value;
 
-import DangerButton from '../root/DangerButton.vue';
-import ApproveButton from '../root/ApproveButton.vue';
+const filter: Ref<{
+  title: boolean;
+  description: boolean;
+  status: boolean;
+  actions: boolean;
+}> | undefined = inject('filter');
+
+import Danger from '../root/Danger.vue';
+import Approve from '../root/Approve.vue';
 
 const dataTasks = (await supabase.from('tasks').select('id,title,description,user,is_opened')).data;
 const dataParticipant = (await supabase.from('participant').select('id,nickname,uid,completed').eq('nickname', params.player)).data;

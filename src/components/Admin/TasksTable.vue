@@ -48,11 +48,11 @@
 				</td>
 				<td>
 					<div class="*:mx-0.5">
-						<CommonButton v-if="task.is_opened" @click="closeTask(task.id)">Закрыть</CommonButton>
-						<CommonButton v-else @click="openTask(task.id)">Открыть</CommonButton>
-						<DangerButton class="flex justify-center items-center px-0.5 py-0.5" @click="deleteTask(task.id)">
+						<Common class="px-2 py-1" v-if="task.is_opened" @click="closeTask(task.id)">Закрыть</Common>
+						<Common class="px-2 py-1" v-else @click="openTask(task.id)">Открыть</Common>
+						<Danger class="p-1" @click="deleteTask(task.id)">
 							<span class="material-symbols">delete</span>
-						</DangerButton>
+						</Danger>
 					</div>
 				</td>
 			</tr>
@@ -76,8 +76,8 @@
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
-import DangerButton from '../root/DangerButton.vue';
-import CommonButton from '../root/CommonButton.vue';
+import Danger from '../root/Danger.vue';
+import Common from '../root/Common.vue';
 
 const dataTasks = (await supabase.from('tasks').select('id,title,description,user,reward,is_opened')).data;
 const dataParticipant = (await supabase.from('participant').select('id,nickname,completed')).data;

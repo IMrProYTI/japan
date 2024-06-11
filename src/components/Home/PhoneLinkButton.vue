@@ -1,11 +1,8 @@
 <template>
-	<router-link 
-		class="
-			px-2 py-1 rounded-md border-2 border-transparent text-white
-			hover:border-blue-700 bg-blue-600 active:bg-blue-700
-		"
-		:to="to"
-	>
+	<router-link class="
+			flex justify-start items-center w-auto h-full py-2 *:ms-3 space-x-4
+			rounded-xl bg-neutral-700/50
+		" :to="to">
 		<slot />
 	</router-link>
 </template>

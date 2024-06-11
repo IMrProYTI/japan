@@ -1,9 +1,14 @@
 <template>
   <div class="w-screen min-h-screen dark:text-white dark:bg-slate-950">
     <div v-if="$route.params.player" class="flex flex-col justify-center items-center">
-      <div class="*:text-xl *:text-center p-2">
-        <h1>Задания: {{ $route.params.player }}</h1>
-        <Timer />
+      <div class="flex justify-between items-start w-full p-2">
+        <div class="w-10" />
+        <div class="*:text-xl *:text-center">
+          <h1>Задания: {{ $route.params.player }}</h1>
+          <Timer />
+          <Filter class="pt-2" />
+        </div>
+        <Mode class="mt-2" />
       </div>
       <Tasks />
     </div>
@@ -11,8 +16,26 @@
 </template>
 
 <script setup lang="ts">
+import { provide, Ref, ref } from 'vue';
+
 import Tasks from './Judge/Tasks.vue';
+import Filter from './Judge/Filter.vue';
 import Timer from './root/Timer.vue';
+import Mode from './root/Mode.vue';
+
+const filter: Ref<{
+  title: boolean;
+  description: boolean;
+  status: boolean;
+  actions: boolean;
+}> = ref({
+  title: true,
+  description: true,
+  status: true,
+  actions: true
+});
+
+provide('filter', filter);
 </script>
 
 <style scoped>

@@ -14,11 +14,13 @@
         <div
           v-for="task in tasks" :key="task.id"
           v-show="(task.user === 'ALL' || task.user === $route.params.player) && task.is_opened"
-          class="flex justify-between items-center w-full p-2 rounded-md text-lg bg-gradient-to-b "
+          class="flex justify-between items-center w-full p-2 rounded-md text-lg bg-gradient-to-b"
           :class="tasksCompleted[task.id] === 0 ? 'from-[#ebe6db] to-[#ebe6db99]' : 'from-[#ebdbdb] to-[#ebdbdb99]'"
         >
 		  	  <h1 class="flex-1 truncate">{{ task.title }}</h1>
-		  	  <p>{{ task.reward }}</p>
+          <div class="flex">
+            <img v-for="el in range(0, task.reward)" :key="el" class="w-7" src="/genshin/dice.png">
+          </div>
         </div>
       </transition-group>
     </div>
@@ -28,6 +30,8 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 import supabase from '../supabase';
+
+const range = (start: number, end: number, step: number = 1) => { let out = [], i = start; while (i < end) { out.push(i); i += step; }; return out; }
 
 const dataTasks = (await supabase.from('tasks').select('id,title,reward,is_opened,user')).data;
 const dataParticipants = (await supabase.from('participant').select('id,nickname,uid,completed')).data;

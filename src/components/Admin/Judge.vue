@@ -3,13 +3,13 @@
     <div class="flex flex-col w-fit space-y-2">
       <div class="flex justify-start items-center space-x-2">
         <p class="h-fit">Добаивть судью:</p>
-        <input class="rounded flex-1 p-1 bg-neutral-100 dark:bg-slate-900" v-model="judge" placeholder="Имя" type="text">
+        <input class="rounded flex-1 p-1 bg-neutral-100 dark:bg-slate-900" v-model="form.judge" placeholder="Имя" type="text">
       </div>
       <div class="flex justify-start items-center space-x-2">
         <p>Следит за:</p>
         <select
           class="rounded p-1 flex-1 disabled:text-slate-500 bg-neutral-100 dark:bg-slate-900"
-          v-model="user"
+          v-model="form.user"
         >
           <option value="" selected disabled>Выберите участника</option>
           <option
@@ -19,7 +19,7 @@
           >{{ participant.nickname }}</option>
         </select>
       </div>
-      <ApproveButton @click="addJudge">Добавить</ApproveButton>
+      <Approve class="px-2 py-1 w-full" @click="addJudge">Добавить</Approve>
     </div>
     <div class="w-full overflow-x-auto rounded">
       <Suspense>
@@ -39,10 +39,15 @@ import supabase from '../../supabase';
 
 import Loading from '../root/Loading.vue';
 import JudgeTable from './JudgeTable.vue';
-import ApproveButton from '../root/ApproveButton.vue';
+import Approve from '../root/Approve.vue';
 
-const judge: Ref<string> = ref("");
-const user: Ref<string> = ref("");
+const form: Ref<{
+  judge: string;
+  user: string;
+}> = ref({
+  judge: "",
+  user: ""
+});
 
 const participants: Ref<{
   id: number;
@@ -51,8 +56,8 @@ const participants: Ref<{
 
 async function addJudge() {
 	await supabase.from('judge').insert({
-    judge: judge.value,
-    participant: user.value,
+    judge: form.value.judge,
+    participant: form.value.user,
     key: makeKey(64)
   });
 };

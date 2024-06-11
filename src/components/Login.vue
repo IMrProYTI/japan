@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col w-screen min-h-screen">
     <div class="fixed flex justify-between w-full p-2">
-      <LinkButton to="/">Главная</LinkButton>
-      <router-link to="/"><DangerButton>Закрыть</DangerButton></router-link>
+      <Link to="/">Главная</Link>
+      <router-link to="/"><Danger>Закрыть</Danger></router-link>
     </div>
     <div class="flex flex-1 flex-col justify-center items-center space-y-2">
       <button
@@ -21,8 +21,8 @@ import { ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import supabase from '../supabase';
 
-import LinkButton from './root/LinkButton.vue';
-import DangerButton from './root/DangerButton.vue';
+import Link from './root/Link.vue';
+import Danger from './root/Danger.vue';
 
 const errorMessage: Ref<string | undefined> = ref("");
 

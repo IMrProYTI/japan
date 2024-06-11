@@ -6,7 +6,7 @@
 			class="max-w-[500px] md:text-base text-sm"
 		></div>
 	</div>
-	<p v-else>Посты отключены</p>	
+	<p v-else class="font-semibold">Посты не работают</p>	
 </template>
 
 <script setup lang="ts">
@@ -26,7 +26,7 @@ const data: Ref<{
 onMounted(async () => {
 	if (IS_LOAD) {
 		await VKenable()
-		data.value = (await supabase.from('vk').select('owner_id,post_id,hash').order('post_id', { ascending: false }).eq('show', 'true').limit(3)).data;
+		data.value = (await supabase.from('vk').select('owner_id,post_id,hash').order('post_id', { ascending: false }).eq('show', 'true').limit(6)).data;
 
 		if (data && data.value) {
 			data.value.forEach((post) => {

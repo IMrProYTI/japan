@@ -18,11 +18,12 @@
 	src: url(/GoogleMaterialSymbols.woff2) format('woff2');
 }
 
-.material-symbols {
+.material-symbols,
+.material-symbols-nosize {
 	font-family: 'Material Symbols Outlined';
 	font-weight: normal;
 	font-style: normal;
-	font-size: 24px;
+	/* font-size: 24px; */
 	line-height: 1;
 	letter-spacing: normal;
 	text-transform: none;
@@ -33,4 +34,8 @@
 	-moz-font-feature-settings: 'liga';
 	-moz-osx-font-smoothing: grayscale;
 	user-select: none;
+}
+
+.material-symbols {
+	font-size: 24px;
 }

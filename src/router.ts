@@ -10,6 +10,8 @@ import AdminParticipant from './components/Admin/Participant.vue';
 import ErrorPage from './views/ErrorPage.vue';
 
 import Home from './views/Home.vue';
+import Root from './views/Home/Root.vue';
+import Posts from './views/Home/Posts.vue';
 
 import Judge from './views/Judge.vue';
 
@@ -25,14 +27,28 @@ import QRCode from './views/QRCode.vue';
 import updateTitle from './updateTitle';
 
 
-const DEBUG: boolean = false;
+const DEBUG: boolean = true;
 
 const routes = [
 	{
-		name: "Главная",
+		name: "root",
 		path: '/',
 		component: Home,
-		meta: { requiresAuth: false }
+		meta: { requiresAuth: false },
+		children: [
+			{
+				name: "Главная",
+				path: '',
+				component: Root,
+				meta: { requiresAuth: false }
+			},
+			{
+				name: "Посты ВК",
+				path: 'posts',
+				component: Posts,
+				meta: { requiresAuth: false }
+			}
+		]
 	},
 	{
 		name: "Админ Панель",

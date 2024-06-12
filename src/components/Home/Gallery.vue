@@ -5,33 +5,32 @@
 			<p class="xl:w-3/4 text-center">Фотографии, которые были сделаны относительно недавно. Они показывают, каков клуб на данный момент.</p>
 			<div class="gallery relative flex flex-col w-full aspect-[8/5] overflow-hidden overflow-x-auto">
 				<div class="flex justify-between flex-1">
-					<div @click="prevActualImage" class="flex flex-1 justify-start items-center cursor-pointer z-10 ps-4">
+					<div @click="prevActual" class="flex flex-1 justify-start items-center cursor-pointer z-10 ps-4">
 						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_left</span>
 						</button>
 					</div>
-					<div @click="nextActualImage" class="flex flex-1 justify-end items-center cursor-pointer z-10 pe-4">
+					<div @click="nextActual" class="flex flex-1 justify-end items-center cursor-pointer z-10 pe-4">
 						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_right</span>
 						</button>
 					</div>
 				</div>
 				<TransitionGroup name="actual">
-					<!-- <img class="-bottom-10"> -->
 					<img
-						v-for="(el, index) in range(0, maxActualCount)" :key="index"
+						v-for="(url, index) in gallery.actual.urls" :key="index"
 						class="absolute object-cover"
-						v-show="el === actualIndex"
-						:class="getActualtyle(el)"
-						:src="`/gallery/actual/${el}.jpg`"
+						:style="gallery.actual.styles[index]"
+						v-show="gallery.actual.index === index"
+						:src="url"
 					>
 				</TransitionGroup>
 				<div class="flex justify-center items-center z-10 p-2 space-x-2">
 					<button
-						v-for="(el, index) in range(0, maxActualCount)" :key="index"
-						@click="actualIndex = el"
+						v-for="(_url, index) in gallery.actual.urls" :key="index"
+						@click="gallery.actual.index = index"
 						class="w-6 md:w-8 h-1"
-						:class="el === actualIndex ? 'bg-white' : 'bg-neutral-300'"
+						:class="gallery.actual.index === index ? 'bg-white' : 'bg-neutral-300'"
 					/>
 				</div>
 			</div>
@@ -42,12 +41,12 @@
 			<p class="xl:w-3/4 text-center">Фотографии, которые были сделаны достаточно давно, но не потеряли своей актуальности.</p>
 			<div class="gallery relative flex flex-col w-full aspect-[8/5] overflow-hidden overflow-x-auto">
 				<div class="flex justify-between flex-1">
-					<div @click="prevArchiveImage" class="flex flex-1 justify-start items-center cursor-pointer z-10 ps-4">
+					<div @click="prevArchive" class="flex flex-1 justify-start items-center cursor-pointer z-10 ps-4">
 						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_left</span>
 						</button>
 					</div>
-					<div @click="nextArchiveImage" class="flex flex-1 justify-end items-center cursor-pointer z-10 pe-4">
+					<div @click="nextArchive" class="flex flex-1 justify-end items-center cursor-pointer z-10 pe-4">
 						<button class="flex justify-center items-center w-8 h-8 rounded-full bg-white/50 dark:bg-neutral-800/75">
 							<span class="material-symbols">chevron_right</span>
 						</button>
@@ -55,19 +54,19 @@
 				</div>
 				<TransitionGroup name="archive">
 					<img
-						v-for="(el, index) in range(0, maxArchiveCount)" :key="index"
+						v-for="(url, index) in gallery.archive.urls" :key="index"
 						class="absolute object-cover cursor-pointer"
-						v-show="el === archiveIndex"
-						:class="getArchiveStyle(el)"
-						:src="`/gallery/archive/${el}.jpg`"
+						:style="gallery.archive.styles[index]"
+						v-show="gallery.archive.index === index"
+						:src="url"
 					>
 				</TransitionGroup>
 				<div class="flex justify-center items-center z-10 p-2 space-x-2">
 					<button
-						v-for="(el, index) in range(0, maxArchiveCount)" :key="index"
-						@click="archiveIndex = el"
+						v-for="(_url, index) in gallery.archive.urls" :key="index"
+						@click="gallery.archive.index = index"
 						class="w-6 md:w-8 h-1"
-						:class="el === archiveIndex ? 'bg-white' : 'bg-neutral-300'"
+						:class="gallery.archive.index === index ? 'bg-white' : 'bg-neutral-300'"
 					/>
 				</div>
 			</div>
@@ -77,55 +76,88 @@
 
 <script setup lang="ts">
 import { ref, Ref } from 'vue';
+import supabase from '../../supabase';
 
-const range = (start: number, end: number, step: number = 1): number[] => { const out = []; for (let i = start; i < end; i+=step) out.push(i); return out; };
+const gallery: Ref<{
+	actual: {
+		index: number,
+		maxIndex: number,
+		urls: string[],
+		styles: string[]
+	},
+	archive: {
+		index: number,
+		maxIndex: number,
+		urls: string[],
+		styles: string[]
+	}
+}> = ref({
+	actual: {
+		index: 0,
+		maxIndex: 0,
+		urls: [],
+		styles: []
+	},
+	archive: {
+		index: 0,
+		maxIndex: 0,
+		urls: [],
+		styles: []
+	}
+});
 
-const maxActualCount: number = 6;
-const actualIndex: Ref<number> = ref(0);
+const prevActual = () => {
+	const { index, maxIndex } = gallery.value.actual;
+	gallery.value.actual.index = validateIndexes(index - 1, maxIndex);
+}
+const nextActual = () => {
+	const { index, maxIndex } = gallery.value.actual;
+	gallery.value.actual.index = validateIndexes(index + 1, maxIndex);
+}
 
-const nextActualImage = () => nextImage(actualIndex, maxActualCount);
-const prevActualImage = () => prevImage(actualIndex, maxActualCount);
+const prevArchive = () => {
+	const { index, maxIndex } = gallery.value.archive;
+	gallery.value.archive.index = validateIndexes(index - 1, maxIndex);
+}
+const nextArchive = () => {
+	const { index, maxIndex } = gallery.value.archive;
+	gallery.value.archive.index = validateIndexes(index + 1, maxIndex);
+}
 
-const maxArchiveCount: number = 3;
-const archiveIndex: Ref<number> = ref(0);
+function validateIndexes(newIndex: number, maxIndex: number): number {
+	if (newIndex < 0) return maxIndex - 1;
+	else if (newIndex >= maxIndex) return 0;
+	else return newIndex;
+}
 
-const nextArchiveImage = () => nextImage(archiveIndex, maxArchiveCount);
-const prevArchiveImage = () => prevImage(archiveIndex, maxArchiveCount);
+(async () => {
+	const data: {
+		actual: {
+			maxIndex: number,
+			styles: string[]
+		}; 
+		archive: {
+			maxIndex: number,
+			styles: string[]
+		}; 
+	} = await (await fetch(supabase.storage.from('japanclub').getPublicUrl('data.json').data.publicUrl)).json();
 
-function nextImage(index: Ref<number>, maxIndex: number) {
-	if (index.value >= maxIndex-1)
-		index.value = 0;
-	else
-		index.value += 1;
-};
+	gallery.value.actual.maxIndex = data.actual.maxIndex;
+	gallery.value.archive.maxIndex = data.archive.maxIndex;
 
-function prevImage(index: Ref<number>, maxIndex: number) {
-	if (index.value <= 0)
-		index.value = maxIndex-1;
-	else
-		index.value -= 1;
-};
+	gallery.value.actual.styles = data.actual.styles;
+	gallery.value.archive.styles = data.archive.styles;
 
-function getActualtyle(element: number): string {
-	switch (element) {
-		case 0: return 'bottom-0';
-		case 1: return '-bottom-10';
-		case 2: return 'bottom-0';
-		case 3: return '';
-		case 4: return 'bottom-0';
-		case 5: return 'bottom-0';
-		default: return '';
+	for (let i = 0; i < data.actual.maxIndex; i++) {
+		const imgUrl = supabase.storage.from('japanclub').getPublicUrl(`actual/${i}.jpg`).data.publicUrl;
+		gallery.value.actual.urls.push(imgUrl);
+	}
+
+	for (let i = 0; i < data.archive.maxIndex; i++) {
+		const imgUrl = supabase.storage.from('japanclub').getPublicUrl(`archive/${i}.jpg`).data.publicUrl;
+		gallery.value.archive.urls.push(imgUrl);
 	};
-};
-
-function getArchiveStyle(element: number): string {
-	switch (element) {
-		case 0: return '';
-		case 1: return 'bottom-0';
-		case 2: return 'bottom-0';
-		default: return '';
-	};
-};
+})();
 </script>
 
 <style scoped>

@@ -27,7 +27,7 @@ import QRCode from './views/QRCode.vue';
 import updateTitle from './updateTitle';
 
 
-const DEBUG: boolean = true;
+const DEBUG: boolean = false;
 
 const routes = [
 	{

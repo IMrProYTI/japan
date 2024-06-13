@@ -6,9 +6,9 @@
 </template>
 
 <script setup lang="ts">
-import router from '../router';
+import { useRoute } from 'vue-router';
 
-const { participant, key } = router.currentRoute.value.params;
+const { participant, key } = useRoute().params;
 const uri = encodeURI(`${window.location.origin}/judge/${participant}?key=${key}`);
 </script>
 

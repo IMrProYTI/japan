@@ -1,14 +1,14 @@
 <template>
 	<table
 		v-if="tasks !== null && participant" 
-		class="w-max rounded table-auto text-xs sm:text-sm m-auto text-white bg-blue-600 dark:bg-slate-900"
+		class="w-max rounded table-auto text-sm m-auto text-white bg-blue-600 dark:bg-slate-900"
 	>
 		<thead>
-			<tr class="*:px-1 *:md:px-2 *:py-1">
-				<th v-if="filter?.title">Название</th>
-				<th v-if="filter?.description">Описание</th>
-				<th v-if="filter?.status">Статус задания</th>
-				<th v-if="filter?.actions && query.key">Действия</th>
+			<tr class="*:p-1">
+				<th v-if="filter.title">Название</th>
+				<th v-if="filter.description">Описание</th>
+				<th v-if="filter.status">Статус задания</th>
+				<th v-if="filter.actions && isValidKey">Действия</th>
 			</tr>
 		</thead>
 		<tbody
@@ -19,27 +19,32 @@
 			"
 		>
 			<tr
-				class="*:*:flex *:*:items-center *:*:p-0.5"
-				:class="task.is_opened ? '' : 'hidden'"
+				class="*:*:flex *:*:px-2 *:*:py-1 min-h-10"
+				v-show="task.is_opened !== false"
 				v-for="task in tasks" 
 				:key="task.id" 
 			>
-				<td v-if="filter?.title" class="ps-1">
-					<p>{{ task.title }}</p>
+				<td v-if="filter.title">
+					<div>
+						<p>{{ task.title }}</p>
+					</div>
 				</td>
-				<td v-if="filter?.description">
-					<p>{{ task.description }}</p>
+				<td v-if="filter.description">
+					<div class="flex-col">
+						<p v-for="(el, index) in task.description" :key="index">{{ el }}</p>
+					</div>
 				</td>
-				<td v-if="filter?.status">
-					<div class="justify-center">
+				<td v-if="filter.status">
+					<div class="justify-center items-center">
 						<p>{{ participant.completed.includes(task.id) ? 'Выполнено' : 'Не выполнено' }}</p>
 						<span v-if="participant.completed.includes(task.id)" class="material-symbols text-green-600">check</span>
 						<span v-else class="material-symbols text-red-600">close</span>
 					</div>
 				</td>
-				<td v-if="filter?.actions && query.key">
-					<div class="justify-center *:mx-0.5">
-						<Danger class="px-1 py-0.5 space-x-1" v-if="participant.completed.includes(task.id)" @click="cancelTask(task.id)">
+				<td v-if="filter.actions && isValidKey">
+					<div class="justify-center items-center">
+						<Loading v-if="loading" />
+						<Danger class="px-1 py-0.5 space-x-1" v-else-if="participant.completed.includes(task.id)" @click="cancelTask(task.id)">
 							<p class="flex-1">Отменить</p>
 							<span class="material-symbols">cancel</span>
 						</Danger>
@@ -52,74 +57,67 @@
 			</tr>
 		</tbody>
 		<tfoot>
-			<tr class="*:px-2 *:py-1 invisible">
-				<th v-if="filter?.title">Название</th>
-				<th v-if="filter?.description">Описание</th>
-				<th v-if="filter?.status">Статус задания</th>
-				<th v-if="filter?.actions && query.key">Действия</th>
+			<tr class="*:p-1 invisible">
+				<th v-if="filter.title">Название</th>
+				<th v-if="filter.description">Описание</th>
+				<th v-if="filter.status">Статус задания</th>
+				<th v-if="filter.actions && isValidKey">Действия</th>
 			</tr>
 		</tfoot>
 	</table>
 </template>
 
 <script setup lang="ts">
-import { inject, Ref, ref } from 'vue';
+import { Ref, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { filter, isValidKey, validateKey } from './Judge';
 import supabase from '../../supabase';
-import router from '../../router';
 
-const { params, query } = router.currentRoute.value;
-
-const filter: Ref<{
-  title: boolean;
-  description: boolean;
-  status: boolean;
-  actions: boolean;
-}> | undefined = inject('filter');
+const { params, query } = useRoute();
 
 import Danger from '../root/Danger.vue';
 import Approve from '../root/Approve.vue';
+import Loading from '../root/Loading.vue';
 
-const dataTasks = (await supabase.from('tasks').select('id,title,description,user,is_opened')).data;
-const dataParticipant = (await supabase.from('participant').select('id,nickname,uid,completed').eq('nickname', params.player)).data;
+const dataTasks = (await supabase.from('tasks').select('id,title,description').eq('is_opened', true)).data;
+const dataParticipant = (await supabase.from('participant').select('id,nickname,completed').eq('nickname', params.player)).data;
 
 const tasks: Ref<{
   id: number;
   title: string;
-  description: string;
-  user: string;
-	is_opened: boolean;
+  description: string[];
+	is_opened?: boolean;
 }[]> = ref(dataTasks === null ? [] : dataTasks.sort((a, b) => a.id - b.id));
 
 const participant: Ref<{
   id: number;
   nickname: string;
-	uid: string;
 	completed: number[];
 } | null> = ref(dataParticipant === null ? null : dataParticipant[0]);
 
+const loading: Ref<boolean> = ref(false);
+if (participant.value) validateKey(participant.value.id, String(query.key));
+
 async function completeTask(taskId: number) {
-	if (query.key !== null && participant.value) {
-		const { data, error } = await supabase.from('judge').select('participant').eq('key', typeof query.key === 'string' ? query.key : query.key[0]);
-		if (data && data.length !== 0 && data[0].participant === participant.value.id && error === null) {
-			const payload = { completed: participant.value.completed.concat([taskId]) };
-			await supabase.from('participant').update(payload).eq('nickname', params.player);
-		};
+	if (participant.value && isValidKey) {
+		loading.value = true;
+		const payload = { completed: participant.value.completed.concat([taskId]) };
+		await supabase.from('participant').update(payload).eq('nickname', params.player);
 	};
 };
 
 async function cancelTask(taskId: number) {
-	if (query.key !== null && participant.value) {
-		const { data, error } = await supabase.from('judge').select('participant').eq('key', typeof query.key === 'string' ? query.key : query.key[0]);
-		if (data && data.length !== 0 && data[0].participant === participant.value.id && error === null) {
-			const check = (el: number) => { return el !== taskId; };
-			const payload = { completed: participant.value.completed.filter(check) };
-			await supabase.from('participant').update(payload).eq('nickname', params.player);
-		};
+	if (participant.value && isValidKey) {
+		loading.value = true;
+		const check = (el: number) => el !== taskId;
+		const payload = { completed: participant.value.completed.filter(check) };
+		await supabase.from('participant').update(payload).eq('nickname', params.player);
 	};
 };
 
 function handleParticipantUpdate(payload: any) {
 	participant.value = payload.new;
+	loading.value = false;
 };
 
 function handleInsert(payload: any, refArray: Ref<any[]>): void {
@@ -133,15 +131,13 @@ function handleUpdate(payload: any, refArray: Ref<any[]>): void {
 };
 
 function handleDelete(payload: any, refArray: Ref<any[]>): void {
-	const check = (el: any) => { return el.id !== payload.old.id; };
+	const check = (el: any) => el.id !== payload.old.id;
 	refArray.value = refArray.value.filter(check);
 };
 
 supabase
   .channel('custom-all-channel')
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasks' }, (payload) => { handleInsert(payload, tasks) })
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasks' }, (payload) => { handleUpdate(payload, tasks) })
-  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, (payload) => { handleDelete(payload, tasks) })
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant', filter: `nickname=eq.${params.player}` }, handleParticipantUpdate)
   .subscribe();
 </script>

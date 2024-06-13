@@ -55,7 +55,6 @@
 </template>
 
 <script setup lang="ts">
-
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
 
@@ -97,17 +96,6 @@ function handleDelete(payload: any, refArray: Ref<any[]>): void {
 	refArray.value = refArray.value.filter(check);
 };
 
-supabase
-  .channel('custom-all-channel')
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'participant' }, (payload) => { handleInsert(payload, participants); })
-  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant' }, (payload) => { handleUpdate(payload, participants); calcPoints(); })
-  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'participant' }, (payload) => { handleDelete(payload, participants); })
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasks' }, (payload) => { handleInsert(payload, tasks); })
-  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasks' }, (payload) => { handleUpdate(payload, tasks); })
-  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, (payload) => { handleDelete(payload, tasks); })
-  .subscribe();
-
-
 function calcPoints() {
 	for (let i = 0; i < participants.value.length; i++) {
 		participants.value[i].points = 0;
@@ -118,6 +106,13 @@ function calcPoints() {
 	};
 };
 calcPoints();
+
+supabase
+  .channel('custom-all-channel')
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'participant' }, (payload) => { handleInsert(payload, participants); })
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant' }, (payload) => { handleUpdate(payload, participants); calcPoints(); })
+  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'participant' }, (payload) => { handleDelete(payload, participants); })
+  .subscribe();
 </script>
 
 <style scoped>

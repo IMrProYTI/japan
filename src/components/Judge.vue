@@ -16,26 +16,10 @@
 </template>
 
 <script setup lang="ts">
-import { provide, Ref, ref } from 'vue';
-
 import Tasks from './Judge/Tasks.vue';
 import Filter from './Judge/Filter.vue';
 import Timer from './root/Timer.vue';
 import Mode from './root/Mode.vue';
-
-const filter: Ref<{
-  title: boolean;
-  description: boolean;
-  status: boolean;
-  actions: boolean;
-}> = ref({
-  title: true,
-  description: true,
-  status: true,
-  actions: true
-});
-
-provide('filter', filter);
 </script>
 
 <style scoped>

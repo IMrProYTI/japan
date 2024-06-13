@@ -12,11 +12,11 @@
       <div class="flex *:m-1 *:px-2 *:py-1">
         <Link c-type="external" to="/leaderboard">
           Лидеры
-		      <span class="material-symbols-nosize">open_in_new</span>
+		      <span class="material-symbols-nosize text-blue-400">north_east</span>
         </Link>
         <Link c-type="external" to="/overlay">
           Задания
-		      <span class="material-symbols-nosize">open_in_new</span>
+		      <span class="material-symbols-nosize text-blue-400">north_east</span>
         </Link>
       </div>
     </div>

@@ -1,50 +1,40 @@
 <template>
   <div class="flex flex-col p-2 space-y-4">
-    <div class="flex flex-col items-start w-full overflow-x-auto space-y-2">
-      <div class="flex justify-center items-center space-x-2">
-        <p class="h-fit">Добаивть задание:</p>
-        <select
-          class="rounded p-1 disabled:text-slate-500 bg-neutral-100 dark:bg-slate-900"
-          v-model="form.user"
-          :placeholder="form.checkbox ? `Всем` : `Игроку`"
-          :disabled="form.checkbox"
-        >
-          <option value="" selected disabled>Выберите участника</option>
-          <option
-            v-for="participant in participants"
-            :key="participant.id"
-            :value="participant.id"
-          >{{ participant.nickname }}</option>
-        </select>
-        <select
-          class="px-2 py-1 rounded bg-neutral-100 dark:bg-slate-900"
-          v-model="form.reward"
-        >
-          <option value="" selected disabled>Награда</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-        <input v-model="form.checkbox" disabled type="checkbox">
-        <p class="h-fit">Всем?</p>
+    <div class="flex flex-col items-start w-fit overflow-x-auto space-y-2">
+      <div class="flex justify-between w-full">
+        <div class="flex justify-between space-x-2">
+          <p class="h-fit">Выберите награду:</p>
+          <select
+            class="px-2 py-1 rounded bg-neutral-100 dark:bg-slate-900"
+            v-model="form.reward"
+          >
+            <option value="" selected disabled>Награда</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div class="flex px-1 space-x-2 cursor-pointer" @click="form.is_opened = !form.is_opened">
+          <input class="cursor-pointer" v-model="form.is_opened" type="checkbox">
+          <p class="select-none h-fit">Открыть?</p>
+        </div>
       </div>
       <div class="flex flex-col space-y-2">
         <input
           class="rounded p-1 bg-neutral-100 dark:bg-slate-900"
           v-model="form.title"
-          placeholder="Заголовок"
+          placeholder="Заголовок задания"
           type="text"
         >
         <textarea
           style="width: 542.9px; height: 100px;"
           class="resize rounded p-1 bg-neutral-100 dark:bg-slate-900"
-          v-model="form.description"
-          placeholder="Описание"
+          v-model="rawDescription"
+          placeholder="Описание задания"
           type="text"
-        >
-        </textarea>
+        ></textarea>
         <Approve class="px-2 py-1 w-full" @click="createTask">Добавить</Approve>
       </div>
       <p v-if="errorMessage" class="font-bold text-red-700">{{ errorMessage }}</p>
@@ -71,63 +61,44 @@ import Loading from '../root/Loading.vue';
 import TasksTable from './TasksTable.vue';
 import Approve from '../root/Approve.vue';
 
+const rawDescription = ref("");
+
 const form: Ref<{
   title: string;
-  description: string;
-  user: string;
   reward: string;
-  checkbox: boolean;
+  is_opened: boolean;
 }> = ref({
   title: "",
-  description: "",
-  user: "",
   reward: "",
-  checkbox: true
+  is_opened: false
 });
 
-const participants: Ref<{
-  id: number;
-  nickname: string;
-}[]> = ref([]);
 const errorMessage: Ref<string | undefined> = ref("");
 
 async function createTask() {
-  if (form.value.user === '' && !form.value.checkbox) {
-    errorMessage.value = "Имя пользователя не должно быть пустым";
-    return;
-  };
-
   if (form.value.reward === '') {
     errorMessage.value = "Не выбрана награда";
     return;
   };
 
-  if (form.value.title === '' || form.value.description === '') {
+  if (form.value.title === '' || rawDescription.value === '') {
     errorMessage.value = "Нет названия или описания";
     return;
   };
 
 	const { error } = await supabase.from('tasks').insert({
 		title: form.value.title,
-		description: form.value.description,
+		description: rawDescription.value.split('\n'),
 		reward: Number(form.value.reward),
-    is_opened: false,
-		user: form.value.checkbox ? 'ALL' : form.value.user,
+    is_opened: form.value.is_opened,
 	}).select();
 
   form.value.title = '';
-  form.value.description = '';
-  if (!form.value.checkbox) form.value.user = '';
+  rawDescription.value = '';
   form.value.reward = '';
 
   errorMessage.value = error?.message;
 };
-
-// (async () => {
-//   const { data, error } = await supabase.from('participant').select('id,nickname');
-//   if (data) participants.value = data;
-//   errorMessage.value = error?.message;
-// })();
 </script>
 
 <style scoped>

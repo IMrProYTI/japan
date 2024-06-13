@@ -5,7 +5,7 @@
 				<th>id</th>
 				<th>Судья</th>
 				<th>Участник</th>
-				<th>Ссылка</th>
+				<th>Ссылки</th>
 				<th>Действия</th>
 			</tr>
 			</thead>
@@ -65,7 +65,7 @@
 				<th>id</th>
 				<th>Судья</th>
 				<th>Участник</th>
-				<th>Ссылка</th>
+				<th>Ссылки</th>
 				<th>Действия</th>
 			</tr>
 		</tfoot>
@@ -75,6 +75,7 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
+import { makeKey } from './Judge';
 
 import Common from '../root/Common.vue';
 import SemiDanger from '../root/SemiDanger.vue';
@@ -105,20 +106,8 @@ async function deleteJudge(judgeId: number) {
 		await supabase.from('judge').delete().eq('id', judgeId);
 };
 
-function makeKey(length: number) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  let counter = 0;
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
-  }
-  return result;
-};
-
 function getParticipant(participantId: number) {
-	return participants.value.find((el) => { return el.id === participantId })
+	return participants.value.find((el) => el.id === participantId)
 };
 
 function handleInsert(payload: any, refArray: Ref<any[]>): void {
@@ -139,11 +128,8 @@ function handleDelete(payload: any, refArray: Ref<any[]>): void {
 supabase
   .channel('custom-all-channel')
   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'judge' }, (payload) => { handleInsert(payload, judges) })
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'participant' }, (payload) => { handleInsert(payload, participants) })
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'judge' }, (payload) => { handleUpdate(payload, judges) })
-  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant' }, (payload) => { handleUpdate(payload, participants) })
   .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'judge' }, (payload) => { handleDelete(payload, judges) })
-  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'participant' }, (payload) => { handleDelete(payload, participants) })
   .subscribe();
 </script>
 

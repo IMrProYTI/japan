@@ -13,7 +13,7 @@
       <transition-group name="task">
         <div
           v-for="task in tasks" :key="task.id"
-          v-show="(task.user === 'ALL' || task.user === $route.params.player) && task.is_opened"
+          v-show="task.is_opened !== false"
           class="flex justify-between items-center w-full p-2 rounded-md text-lg bg-gradient-to-b"
           :class="tasksCompleted[task.id] === 0 ? 'from-[#ebe6db] to-[#ebe6db99]' : 'from-[#ebdbdb] to-[#ebdbdb99]'"
         >
@@ -33,15 +33,14 @@ import supabase from '../supabase';
 
 const range = (start: number, end: number, step: number = 1) => { let out = [], i = start; while (i < end) { out.push(i); i += step; }; return out; }
 
-const dataTasks = (await supabase.from('tasks').select('id,title,reward,is_opened,user')).data;
+const dataTasks = (await supabase.from('tasks').select('id,title,reward').eq('is_opened', true)).data;
 const dataParticipants = (await supabase.from('participant').select('id,nickname,uid,completed')).data;
 
 const tasks: Ref<{
   id: number;
   title: string;
   reward: number;
-  is_opened: boolean;
-  user: string;
+  is_opened?: boolean;
 }[]> = ref(dataTasks === null ? [] : dataTasks.sort((a, b) => a.id - b.id));
 
 const tasksCompleted: Ref<{
@@ -87,9 +86,7 @@ calcParticipants();
 supabase
   .channel('custom-all-channel')
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant' }, (payload) => { handleUpdate(payload, participants); calcParticipants(); })
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasks' }, (payload) => { handleInsert(payload, tasks) })
-  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasks' }, (payload) => { handleUpdate(payload, tasks) })
-  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, (payload) => { handleDelete(payload, tasks) })
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasks' }, (payload) => { handleUpdate(payload, tasks); calcParticipants(); })
   .subscribe();
 </script>
 

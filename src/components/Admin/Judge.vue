@@ -36,6 +36,7 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 import supabase from '../../supabase';
+import { makeKey } from './Judge';
 
 import Loading from '../root/Loading.vue';
 import JudgeTable from './JudgeTable.vue';
@@ -62,20 +63,8 @@ async function addJudge() {
   });
 };
 
-function makeKey(length: number) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  let counter = 0;
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
-  }
-  return result;
-};
-
 (async () => {
-  const { data, error } = await supabase.from('participant').select('id,nickname');
+  const { data } = await supabase.from('participant').select('id,nickname');
   if (data) participants.value = data;
 })();
 </script>

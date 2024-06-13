@@ -6,7 +6,6 @@
 				<th>Название</th>
 				<th>Описание</th>
 				<th>Награда</th>
-				<!-- <th>Задание для</th> -->
 				<th>Выполнило</th>
 				<th>Открыт?</th>
 				<th>Действия</th>
@@ -31,12 +30,11 @@
 					<p>{{ task.title }}</p>
 				</td>
 				<td>
-					<p>{{ task.description }}</p>
+					<p v-for="(el, index) in task.description" :key="index">{{ el }}</p>
 				</td>
 				<td>
 					<p class="justify-center">{{ task.reward }} балл{{ task.reward != 1 ? task.reward == 5 ? 'ов' : 'а' : '' }}</p>
 				</td>
-				<!-- <td>{{ task.user === 'ALL' ? 'Всех' : getParticipant(Number(task.user))?.nickname }}</td> -->
 				<td>
 					<p class="justify-center">{{ calcCompleted(task.id) }}</p>
 				</td>
@@ -63,7 +61,6 @@
 				<th>Название</th>
 				<th>Описание</th>
 				<th>Награда</th>
-				<!-- <th>Задание для</th> -->
 				<th>Выполнило</th>
 				<th>Открыт?</th>
 				<th>Действия</th>
@@ -79,7 +76,7 @@ import supabase from '../../supabase';
 import Danger from '../root/Danger.vue';
 import Common from '../root/Common.vue';
 
-const dataTasks = (await supabase.from('tasks').select('id,title,description,user,reward,is_opened')).data;
+const dataTasks = (await supabase.from('tasks').select('id,title,description,reward,is_opened')).data;
 const dataParticipant = (await supabase.from('participant').select('id,nickname,completed')).data;
 
 const tasks: Ref<{
@@ -88,7 +85,6 @@ const tasks: Ref<{
   description: string;
   reward: number;
 	is_opened: boolean;
-  user: string;
 }[]> = ref(dataTasks === null ? [] : dataTasks.sort((a, b) => a.id - b.id));
 
 const participants: Ref<{
@@ -97,10 +93,6 @@ const participants: Ref<{
 	completed: number[];
 	points?: number;
 }[]> = ref(dataParticipant === null ? [] : dataParticipant.sort((a, b) => a.id - b.id));
-
-function getParticipant(participantId: number) {
-	return participants.value.find((el) => { return el.id === participantId })
-};
 
 async function openTask(taskId: number) {
 	await supabase.from('tasks').update({ is_opened: true }).eq('id', taskId);
@@ -143,9 +135,7 @@ supabase
   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasks' }, (payload) => { handleInsert(payload, tasks) })
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasks' }, (payload) => { handleUpdate(payload, tasks) })
   .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, (payload) => { handleDelete(payload, tasks) })
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'participant' }, (payload) => { handleInsert(payload, participants) })
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant' }, (payload) => { handleUpdate(payload, participants) })
-  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'participant' }, (payload) => { handleDelete(payload, participants) })
   .subscribe();
 </script>
 

@@ -39,3 +39,7 @@
 .material-symbols {
 	font-size: 24px;
 }
+
+img {
+	user-select: none;
+}

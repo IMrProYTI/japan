@@ -11,15 +11,26 @@
       <div class="flex flex-col justify-center items-center rounded p-4 space-y-4 bg-neutral-200 dark:bg-slate-900">
         <img class="drop-shadow w-44" src="/logo.png" alt="logo">
         <div class="flex flex-col justify-center items-center">
-          <h1 class="text-xl">Авторизуйтесь через <b class="font-semibold">GitHub</b></h1>
+          <h1 class="text-xl">Авторизуйтесь через <b class="font-semibold">{{ selectedMethod }}</b></h1>
           <p>Чтобы войти в панель администратора</p>
         </div>
         <hr class="w-full border-neutral-300 dark:border-slate-800">
-        <div class="flex w-full space-x-2">
-          <Common class="flex-1 px-2 py-1 dark:bg-slate-800 dark:hover:border-slate-700" @click="signIn">Авторизоватся</Common>
-          <Danger class="p-1" c-type="router" to="/">
-            <span class="material-symbols">logout</span>
-          </Danger>
+        <div class="flex flex-col w-full justify-stretch items-stretch space-y-1">
+          <div class="flex space-x-2">
+            <Common class="flex-1 px-2 py-1 dark:bg-slate-800 dark:hover:border-slate-700" @click="signIn(selectedMethod)">Авторизоватся</Common>
+            <Danger class="p-1" c-type="router" to="/">
+              <span class="material-symbols">logout</span>
+            </Danger>
+          </div>
+          <div class="flex justify-center space-x-2 text-sm">
+            <button
+              v-for="(el, index) in availableMethods" :key="index"
+              :class="selectedMethod === el ? 'underline' : ''"
+              @click="selectedMethod = el"
+            >
+              {{ el }}
+            </button>
+          </div>
         </div>
         <p v-if="errorMessage" class="font-semibold text-red-600">{{ errorMessage }}</p>
       </div>
@@ -37,14 +48,28 @@ import Link from './root/Link.vue';
 import Common from './root/Common.vue';
 import Danger from './root/Danger.vue';
 
+type availableMethods = "Discord" | "GitHub";
+const availableMethods: availableMethods[] = ["Discord", "GitHub"];
+const selectedMethod: Ref<availableMethods> = ref("Discord");
+
+const { query } = useRoute();
 const errorMessage: Ref<string | undefined> = ref("");
 
 // @ts-ignore
-const redirect: string = typeof (useRoute().query.redirect) === 'string' ? useRoute().query.redirect : "/";
+const redirect: string = typeof (query.redirect) === 'string' ? query.redirect : "/";
 
-async function signIn() {
+if (String(query.redirect).split('?').length !== 1) {
+  const errorQuery = String(query.redirect).split('?')[1].split('&');
+  if (errorQuery[0].split('=')[1] === 'access_denied') {
+    setTimeout(() => {errorMessage.value = ''}, 5*1000)
+    errorMessage.value = "Доступ Запрещён";
+  };
+};
+
+async function signIn(method: availableMethods) {
   const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'github',
+    // @ts-ignore
+    provider: method.toLowerCase(),
     options: { redirectTo: `${window.location.origin}${redirect}` }
   });
   

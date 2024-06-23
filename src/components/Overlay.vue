@@ -1,24 +1,30 @@
 <template>
-  <div class="text-black h-screen overflow-hidden space-y-2 p-2">
+  <div class="text-black h-screen overflow-x-hidden space-y-2 p-2">
     <h1 class="p-2 rounded-md text-lg text-center text-[#ccbd8f] bg-gradient-to-b from-[#4b5265] to-[#4b526599]">
       🌸Все задания:🌸
     </h1>
     <h2
       class="flex space-x-2 *:text-center *:rounded-md *:p-2 text-[#ccbd8f] *:bg-gradient-to-b *:from-[#4b5265] *:to-[#4b526599]"
     >
-      <p class="basis-2/3">Задание:</p>
-      <p class="basis-1/3">Очки:</p>
+      <p class="flex-1">Задание:</p>
+      <p class="w-[calc(28px*5+8px*2)]">Очки:</p>
     </h2>
     <div class="relative space-y-2">
       <transition-group name="task">
         <div
           v-for="task in tasks" :key="task.id"
           v-show="task.is_opened !== false"
-          class="flex justify-between items-center w-full p-2 rounded-md text-lg bg-gradient-to-b"
+          class="flex justify-between items-center w-full p-2 space-x-4 rounded-md text-lg bg-gradient-to-b"
           :class="tasksCompleted[task.id] === 0 ? 'from-[#ebe6db] to-[#ebe6db99]' : 'from-[#ebdbdb] to-[#ebdbdb99]'"
         >
-		  	  <h1 class="flex-1 truncate">{{ task.title }}</h1>
-          <div class="flex">
+          <div class="flex-1 overflow-hidden">
+            <h1 class="">{{ task.title }}</h1>
+            <p
+              class="text-sm text-neutral-500"
+              v-for="(el, index) in task.description" :key="index"
+            >{{ el }}</p>
+          </div>
+          <div class="flex justify-end shrink-0 w-[calc(28px*5)]">
             <img v-for="el in range(0, task.reward)" :key="el" class="w-7" src="/genshin/dice.png">
           </div>
         </div>
@@ -33,12 +39,13 @@ import supabase from '../supabase';
 
 const range = (start: number, end: number, step: number = 1) => { let out = [], i = start; while (i < end) { out.push(i); i += step; }; return out; }
 
-const dataTasks = (await supabase.from('tasks').select('id,title,reward').eq('is_opened', true)).data;
+const dataTasks = (await supabase.from('tasks').select('id,title,description,reward').eq('is_opened', true)).data;
 const dataParticipants = (await supabase.from('participant').select('id,nickname,uid,completed')).data;
 
 const tasks: Ref<{
   id: number;
   title: string;
+  description: string;
   reward: number;
   is_opened?: boolean;
 }[]> = ref(dataTasks === null ? [] : dataTasks.sort((a, b) => a.id - b.id));

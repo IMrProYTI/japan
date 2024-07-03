@@ -6,7 +6,7 @@
 				<th>Название</th>
 				<th>Описание</th>
 				<th>Награда</th>
-				<th>Выполнило</th>
+				<th>Выполнено</th>
 				<th>Открыт?</th>
 				<th>Действия</th>
 			</tr>
@@ -33,10 +33,14 @@
 					<p v-for="(el, index) in task.description" :key="index">{{ el }}</p>
 				</td>
 				<td>
-					<p class="justify-center">{{ task.reward }} балл{{ task.reward != 1 ? task.reward == 5 ? 'ов' : 'а' : '' }}</p>
+					<p class="justify-center">{{ task.reward }} балл{{ task.reward != 1 ? task.reward >= 5 ? 'ов' : 'а' : '' }}</p>
 				</td>
 				<td>
-					<p class="justify-center">{{ calcCompleted(task.id) }}</p>
+					<div class="justify-center">
+						<span v-if="calcCompleted(task.id) > 0" class="material-symbols text-green-600">check</span>
+						<span v-else class="material-symbols text-red-600">close</span>
+						<p>{{ calcCompleted(task.id) }} раз{{ calcCompleted(task.id) > 1 ? calcCompleted(task.id) >= 5 ? 'ов' : 'а' : '' }}</p>
+					</div>
 				</td>
 				<td>
 					<div class="justify-center">
@@ -61,7 +65,7 @@
 				<th>Название</th>
 				<th>Описание</th>
 				<th>Награда</th>
-				<th>Выполнило</th>
+				<th>Выполнено</th>
 				<th>Открыт?</th>
 				<th>Действия</th>
 			</tr>
@@ -134,8 +138,8 @@ supabase
   .channel('custom-all-channel')
   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasks' }, (payload) => { handleInsert(payload, tasks) })
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasks' }, (payload) => { handleUpdate(payload, tasks) })
-  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, (payload) => { handleDelete(payload, tasks) })
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'participant' }, (payload) => { handleUpdate(payload, participants) })
+  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'tasks' }, (payload) => { handleDelete(payload, tasks) })
   .subscribe();
 </script>
 

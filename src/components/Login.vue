@@ -3,7 +3,6 @@
     <div class="fixed flex justify-between w-full p-2">
       <div class="flex space-x-2">
         <Link class="px-2 py-1" c-type="router" to="/">Главная</Link>
-        <Link class="px-2 py-1" c-type="router" to="/posts">Посты</Link>
       </div>
       <Mode />
     </div>

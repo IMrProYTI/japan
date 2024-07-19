@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { checkAuth } from './supabase';
 
 
@@ -8,10 +8,6 @@ import AdminJudge from './components/Admin/Judge.vue';
 import AdminParticipant from './components/Admin/Participant.vue';
 
 import ErrorPage from './views/ErrorPage.vue';
-
-import Home from './views/Home.vue';
-import Root from './views/Home/Root.vue';
-import Posts from './views/Home/Posts.vue';
 
 import Judge from './views/Judge.vue';
 
@@ -23,29 +19,31 @@ import Overlay from './views/Overlay.vue';
 
 import QRCode from './views/QRCode.vue';
 
+import Redirect from './views/Redirect.vue';
+
 
 import updateTitle from './updateTitle';
 
 
 const DEBUG: boolean = false;
 
-const routes = [
+const routes: RouteRecordRaw[] = [
 	{
 		name: "root",
 		path: '/',
-		component: Home,
+		component: Redirect,
 		meta: { requiresAuth: false },
 		children: [
 			{
 				name: "Главная",
 				path: '',
-				component: Root,
+				component: Redirect,
 				meta: { requiresAuth: false }
 			},
 			{
 				name: "Посты ВК",
 				path: 'posts',
-				component: Posts,
+				component: Redirect,
 				meta: { requiresAuth: false }
 			}
 		]
@@ -54,6 +52,7 @@ const routes = [
 		name: "Админ Панель",
 		path: '/admin',
 		component: Admin,
+		redirect: '/admin/tasks',
 		meta: { requiresAuth: true },
 		children: [
 			{
@@ -128,6 +127,9 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _from) => {
+	if (to.path === '/') window.location.href = 'https://japanclub.netlify.app/';
+	if (to.path === '/posts') window.location.href = 'https://japanclub.netlify.app/';
+
 	if (!DEBUG && to.meta.requiresAuth && !(await checkAuth())) {
 		return {
 			path: '/login',

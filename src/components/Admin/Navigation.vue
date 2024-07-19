@@ -39,7 +39,7 @@ import Danger from '../root/Danger.vue';
 
 async function SignOut() {
   const { error } = await supabase.auth.signOut();
-  if (!error?.message) router.push('/');
+  if (!error?.message) router.push('/admin');
 };
 </script>
 
